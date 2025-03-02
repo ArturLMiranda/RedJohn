@@ -1,0 +1,92 @@
+# Instruções para Baixar e Executar o Projeto no Ubuntu
+
+## 1️⃣ Pré-requisitos
+Antes de começar, certifique-se de que você tem os seguintes pacotes instalados:
+- **Git**
+- **Python3**
+- **pip** (gerenciador de pacotes do Python)
+- **MySQL Server**
+- **Docker** (Opcional, caso prefira rodar o banco via container)
+
+Para instalar os pacotes necessários, execute o seguinte comando no terminal:
+```sh
+sudo apt update && sudo apt install -y git python3 python3-pip mysql-server docker.io
+```
+     
+---
+## 2️⃣ Clonar o Repositório do GitHub
+No terminal, vá até o diretório onde deseja baixar o projeto e execute:
+```sh
+git clone https://github.com/seu_usuario/seu_projeto.git
+```
+Substitua `seu_usuario/seu_projeto` pelo nome correto do repositório.
+
+Após o download, entre na pasta do projeto:
+```sh
+cd seu_projeto
+```
+
+---
+## 3️⃣ Configurar o Banco de Dados
+### **Opção 1: Instalar MySQL Manualmente**
+Caso esteja usando o MySQL localmente, siga os passos:
+1. **Inicie o MySQL:**
+   ```sh
+   sudo systemctl start mysql
+   sudo systemctl enable mysql
+   ```
+2. **Acesse o MySQL como root:**
+   ```sh
+   sudo mysql -u root -p
+   ```
+3. **Crie o banco de dados e importe os arquivos SQL:**
+   ```sql
+   CREATE DATABASE loggui_db;
+   USE loggui_db;
+   SOURCE DB/criar_banco.sql;
+   SOURCE DB/popular_dados.sql;
+   ```
+
+### **Opção 2: Usar Docker (Recomendado)**
+Caso prefira rodar o MySQL via Docker, execute:
+```sh
+docker-compose up -d
+```
+Isso iniciará um container MySQL e criará automaticamente o banco de dados.
+
+---
+## 4️⃣ Instalar Dependências do Python
+No diretório do projeto, execute:
+```sh
+pip3 install -r requirements.txt
+```
+Isso instalará todas as dependências do projeto.
+
+---
+## 5️⃣ Executar o Projeto
+Para rodar o sistema, execute:
+```sh
+python3 main.py
+```
+Caso o projeto tenha um arquivo principal diferente de `main.py`, ajuste o comando conforme necessário.
+
+---
+## 6️⃣ Acessar o Sistema
+Se o projeto for uma aplicação web, acesse no navegador:
+```
+http://localhost:8000
+```
+Ou o endereço configurado no código.
+
+---
+## 7️⃣ Parar e Remover o Banco de Dados (Se Usou Docker)
+Caso tenha usado Docker e queira parar tudo, execute:
+```sh
+docker-compose down
+```
+Isso removerá os containers e volumes do MySQL.
+
+---
+## 🎉 Pronto!
+Agora você pode usar o sistema! Qualquer problema, confira o log de erros ou verifique se todos os serviços estão rodando corretamente. 🚀
+

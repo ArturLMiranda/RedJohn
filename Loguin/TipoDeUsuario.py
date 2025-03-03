@@ -1,5 +1,4 @@
-from Loguin.DB import BancoDeDados
-
+from DB import BancoDeDados
 class TipoDeUsuario:
     def __init__(self, nome):
         if len(nome) > 20:

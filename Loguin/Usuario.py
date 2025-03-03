@@ -1,6 +1,6 @@
-from Loguin.DB import BancoDeDados
-from Loguin.APP import TipoDeUsuario
-from Loguin.APP import Status
+from DB import BancoDeDados
+from Loguin import TipoDeUsuario
+from Loguin import Status
 import bcrypt
 
 class Usuario:

@@ -1,4 +1,4 @@
-from Loguin.DB import BancoDeDados
+from DB import BancoDeDados
 
 class Status:
     def __init__(self, nome, ativo):

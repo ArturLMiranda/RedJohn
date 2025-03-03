@@ -1,3 +1,4 @@
+from DB import BancoDeDados
 class Pessoa:
     def __init__(self, db):
         self.db = db

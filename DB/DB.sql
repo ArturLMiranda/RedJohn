@@ -20,11 +20,12 @@ CREATE TABLE login_usuario (
     senha VARCHAR(255) NOT NULL
 );
 
--- Tabela Atividade
+-- Tabela Atividade (agora com campo validade)
 CREATE TABLE atividade (
     id INT PRIMARY KEY AUTO_INCREMENT,
     descricao TEXT NOT NULL,
     demandante_id INT NOT NULL,
+    validade DATE NOT NULL, -- Campo para definir a validade da atividade
     FOREIGN KEY (demandante_id) REFERENCES demandante(id)
 );
 

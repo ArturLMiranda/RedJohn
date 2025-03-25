@@ -17,7 +17,7 @@ CREATE TABLE tipo (
 CREATE TABLE login_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
-    senha VARCHAR(255) NOT NULL
+    senha CHAR(64) NOT NULL -- SHA-256 gera um hash de 64 caracteres
 );
 
 -- Tabela Atividade (agora com campo validade)

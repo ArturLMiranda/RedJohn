@@ -14,16 +14,27 @@ class Login:
         resultado = self.db.buscar_todos(query, (nome, senha_hash))
         
         if resultado:
-            print("Login bem-sucedido!")
             self.registrar_login(nome, sucesso=True)
             return True
         else:
             raise Exception("Erro no tratamento: Nome ou senha incorretos.")
     
-    def registrar_login(self, nome, sucesso):
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        query = """
-        INSERT INTO registro_login (nome, sucesso, timestamp)
-        VALUES (%s, %s, %s)
-        """
-        self.db.executar_query(query, (nome, sucesso, timestamp))
+    def registrar_login(self, nome, senha):
+        if not nome or not senha:
+            raise Exception("Nome e senha são obrigatórios.")
+        
+        # Criptografar a senha com SHA-256
+        senha_hash = hashlib.sha256(senha.encode()).hexdigest()
+        
+        # Verificar se o usuário já existe
+        query_verificar = "SELECT * FROM login_usuario WHERE nome = %s"
+        resultado = self.db.buscar_todos(query_verificar, (nome,))
+        
+        if resultado:
+            raise Exception("Usuário já cadastrado.")
+        
+        # Inserir novo usuário
+        query_inserir = "INSERT INTO login_usuario (nome, senha) VALUES (%s, %s)"
+        self.db.executar(query_inserir, (nome, senha_hash))
+        print("Usuário registrado com sucesso!")
+        return True

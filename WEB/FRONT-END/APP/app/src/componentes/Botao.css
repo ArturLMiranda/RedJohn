@@ -1,0 +1,16 @@
+.botao-laranja {
+    background-color: #F9681C;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px; /* Espaço para garantir que o botão não fique colado aos outros elementos */
+}
+
+.botao-laranja:hover {
+    background-color: #d45718;
+}

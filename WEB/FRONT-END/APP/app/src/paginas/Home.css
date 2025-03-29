@@ -1,37 +1,32 @@
 .home {
     display: flex;
-    gap: 20px; /* Espaço entre os itens */
     width: 100%;
     height: 100vh; /* Garante que a altura ocupe toda a tela */
-    padding: 0;
-    margin: 0;
-    background-color:#282728 ;
+    background-color: #282728;
 }
 
 .lista {
     display: flex;
-    flex-direction: column; /* Organiza os itens da lista na vertical */
+    flex-direction: column;
     width: 100%;
+    height: 100vh; /* Ocupa toda a altura da tela */
+    flex-grow: 1; /* Faz a lista expandir automaticamente */
     box-sizing: border-box;
-    flex-grow: 1; /* Faz a lista crescer para ocupar o espaço disponível */
+    overflow: hidden; /* Evita barra de rolagem desnecessária */
 }
 
 .up {
     display: flex;
-    flex-direction: row; /* Organiza os itens na horizontal */
     justify-content: flex-end; /* Alinha o botão à direita */
     width: 100%;
-    margin-bottom: 20px; /* Espaço entre o botão e os cards */
-    position: relative;
+    padding: 10px;
 }
 
 .conteudo {
+    flex-grow: 1; /* Faz a div ocupar todo o espaço restante */
     display: flex;
-    flex-wrap: wrap; /* Permite que os cards quebrem para a próxima linha */
-    justify-content: flex-start; /* Alinha os cards à esquerda */
-    gap: 20px; /* Espaço entre os cards */
+    flex-direction: column;
     padding: 20px;
-    box-sizing: border-box;
-    overflow: auto;
-    flex-grow: 1; /* Faz com que a div de conteúdo ocupe o espaço restante */
+    overflow-y: auto; /* Permite rolagem caso tenha muitos cards */
 }
+

@@ -3,3 +3,8 @@
     color: white;
     padding: 10px;
 }
+
+img{ 
+    max-width: 15%;
+    height: auto 
+}

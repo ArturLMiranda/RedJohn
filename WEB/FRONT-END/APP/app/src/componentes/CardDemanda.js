@@ -4,22 +4,22 @@ import { FaCog } from 'react-icons/fa'; // Ícone de engrenagem
 
 const CardDemanda = ({ titulo, demandante, responsavel, descricao, cor }) => {
     return (
-        <Card className="card-demanda">
-            <Row noGutters>
-                {/* Barra lateral colorida à esquerda, recebendo a cor via props */}
-                <Col xs={2} style={{ backgroundColor: cor }}></Col>
+        <Card className="card-demanda" style={{ overflow: 'hidden', backgroundColor: '#2F2F31', color: 'white', height: '100%' }}>
+            <Row className="g-0" style={{ height: '100%' }}> {/* Remove espaçamentos extras e ajusta a altura */}
+                {/* Barra lateral colorida à esquerda */}
+                <Col xs={1} style={{ backgroundColor: cor, height: '100%'}}></Col>
 
-                <Col xs={10} className="p-3">
-                    <Card.Body>
+                {/* Conteúdo do card */}
+                <Col xs={11} className="p-3" style={{ display: 'flex', flexDirection: 'column', height: '100%',margin:"-4%" }}>
+                    <Card.Body style={{ flex: 1, position: 'relative' }}>
                         {/* Título e ícone de engrenagem */}
-                        <Row className="align-items-center">
-                            <Col xs={10} className="text-center">
+                        <Row className="align-items-center" style={{ marginTop: '0' }}>
+                            <Col xs={11} className="text-center">
                                 <Card.Title>{titulo}</Card.Title>
                             </Col>
-                            <Col xs={2} className="text-end">
-                                {/* Botão com ícone de engrenagem */}
-                                <Button variant="dark" className="botao-config">
-                                    <FaCog />
+                            <Col xs={1} className="text-end" style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                                <Button style={{ backgroundColor: '#2F2F31', borderColor: '#2F2F31' }} className="botao-config">
+                                    <FaCog style={{ color: '#FA7530' }} />  {/* Altere a cor aqui */}                               
                                 </Button>
                             </Col>
                         </Row>
@@ -31,7 +31,6 @@ const CardDemanda = ({ titulo, demandante, responsavel, descricao, cor }) => {
                             </Col>
                         </Row>
 
-                        {/* Responsável abaixo do Demandante */}
                         <Row>
                             <Col xs={12}>
                                 <p><strong>Responsável:</strong> {responsavel}</p>

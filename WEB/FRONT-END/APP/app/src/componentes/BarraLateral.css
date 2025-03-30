@@ -1,5 +1,5 @@
 .barra-lateral {
-    width: 60px;
+    width: 30px;
     height: 100vh;
     background: black;
     transition: width 0.3s;
@@ -7,4 +7,9 @@
 
 .barra-lateral.expandida {
     width: 200px;
+}
+button{
+    background-color:#000000 ;
+    color:#FA7530 ;
+    border: none;
 }

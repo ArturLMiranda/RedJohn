@@ -1,10 +1,22 @@
 import React from 'react';
+import { Row, Col } from 'react-bootstrap'; // Importando componentes do Bootstrap
 import './BarraSuperior.css';
+
+// Importando a imagem
+import logoImg from '../componentes/asserts/logo1.png'; // Caminho relativo para a imagem
 
 const BarraSuperior = () => {
     return (
         <div className="barra-superior">
-            <div className="logo">Logo</div>
+            <Row className="align-items-center">
+                <Col xs={12} sm={6} md={8} className="logo">
+                    {/* Usando a imagem importada */}
+                    <img 
+                        src={logoImg} 
+                        alt="Logo"  
+                    />
+                </Col>
+            </Row>
         </div>
     );
 };

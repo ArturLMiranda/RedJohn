@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaBars } from 'react-icons/fa';
-import './BarraLateral.css';
+import '../css/BarraLateral.css';
 
 const BarraLateral = () => {
     const [expandida, setExpandida] = useState(false);

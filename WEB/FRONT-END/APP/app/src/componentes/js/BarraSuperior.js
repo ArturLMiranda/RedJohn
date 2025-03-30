@@ -1,9 +1,9 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap'; // Importando componentes do Bootstrap
-import './BarraSuperior.css';
+import '../css/BarraSuperior.css';
 
 // Importando a imagem
-import logoImg from '../componentes/asserts/logo1.png'; // Caminho relativo para a imagem
+import logoImg from '../asserts/logo1.png'; // Caminho relativo para a imagem
 
 const BarraSuperior = () => {
     return (

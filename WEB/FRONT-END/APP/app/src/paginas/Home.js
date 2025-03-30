@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import BarraLateral from '../componentes/BarraLateral';
-import BarraSuperior from '../componentes/BarraSuperior';
-import CardDemanda from '../componentes/CardDemanda';
-import ModalNovaDemanda from '../componentes/Modal';
-import Botao from '../componentes/Botao';
+import BarraLateral from '../componentes/js/BarraLateral';
+import BarraSuperior from '../componentes/js/BarraSuperior';
+import Botao from '../componentes/js/Botao';
+import CardDemanda from '../componentes/js/CardDemanda';
+import Modal from '../componentes/js/Modal';
+
 import { Container, Row, Col } from 'react-bootstrap'; // Importando Bootstrap
 import './Home.css';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Botao.css';
+import '../css/Botao.css';
 
 const Botao = ({ onClick, texto }) => {
     return (

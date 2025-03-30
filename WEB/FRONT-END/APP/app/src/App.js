@@ -1,10 +1,13 @@
-import logo from './logo.svg';
-import Home from './paginas/Home';
+import React from 'react';
+import Home from './paginas/js/Home';  // Caminho correto do componente
 
-function App() {
+const App = () => {
   return (
-    <Home/>
+    <div>
+      <Home />
+    </div>
   );
 }
 
 export default App;
+

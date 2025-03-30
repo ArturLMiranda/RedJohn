@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import BarraLateral from '../componentes/js/BarraLateral';
-import BarraSuperior from '../componentes/js/BarraSuperior';
-import Botao from '../componentes/js/Botao';
-import CardDemanda from '../componentes/js/CardDemanda';
-import Modal from '../componentes/js/Modal';
+import BarraLateral from '../../componentes/js/BarraLateral';
+import BarraSuperior from '../../componentes/js/BarraSuperior';
+import Botao from '../../componentes/js/Botao';
+import CardDemanda from '../../componentes/js/CardDemanda';
+import ModalNovaDemanda from '../../componentes/js/ModalNovaDemanda';  // Corrija o caminho se necessário
 
 import { Container, Row, Col } from 'react-bootstrap'; // Importando Bootstrap
-import './Home.css';
+import '../css/Home.css'; 
+
 
 const Home = () => {
     const [modalVisivel, setModalVisivel] = useState(false);

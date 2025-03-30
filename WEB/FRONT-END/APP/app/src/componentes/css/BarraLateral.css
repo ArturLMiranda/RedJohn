@@ -1,12 +1,13 @@
 .barra-lateral {
     width: 30px;
     height: 100vh;
-    background: black;
+    background:transparent;
     transition: width 0.3s;
 }
 
 .barra-lateral.expandida {
     width: 200px;
+    background: black;
 }
 button{
     background-color:#000000 ;

@@ -22,7 +22,7 @@ const Home = () => {
     ];
 
     return (
-        <div>
+        <div className='Ba'>
             <BarraSuperior />
             <div className="home">
                 <BarraLateral />

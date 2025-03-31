@@ -1,9 +1,9 @@
 import React from 'react';
 import '../css/Botao.css';
 
-const Botao = ({ onClick, texto }) => {
+const Botao = ({ onClick, texto,tipo }) => {
     return (
-        <button className="botao-laranja" onClick={onClick}>
+        <button className={tipo} onClick={onClick} > 
             {texto}
         </button>
     );

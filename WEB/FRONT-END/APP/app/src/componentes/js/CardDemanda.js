@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import { FaCog } from 'react-icons/fa'; // Ícone de engrenagem
 
-const CardDemanda = ({ titulo, demandante, responsavel, descricao, cor }) => {
+const CardDemanda = ({ titulo, demandante, responsavel, descricao, cor,Modal }) => {
     return (
         <Card className="card-demanda" style={{ overflow: 'hidden', backgroundColor: '#2F2F31', color: 'white', height: '100%' }}>
             <Row className="g-0" style={{ height: '100%' }}> {/* Remove espaçamentos extras e ajusta a altura */}

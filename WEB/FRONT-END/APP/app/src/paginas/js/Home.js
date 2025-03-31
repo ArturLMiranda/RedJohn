@@ -28,7 +28,7 @@ const Home = () => {
                 <BarraLateral />
                 <div className="lista">
                     <div className="up">
-                        <Botao texto="Nova Demanda" onClick={() => setModalVisivel(true)} />
+                        <Botao texto="Nova Demanda" tipo={"botao-laranja"} onClick={() => setModalVisivel(true)} />
                     </div>
                     <Container fluid className="conteudo">
                         <Row className="gx-3 gy-3">

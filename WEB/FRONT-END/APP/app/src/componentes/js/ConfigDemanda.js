@@ -62,6 +62,7 @@ const NovaDemanda = () => {
 
             {/* Botão de envio */}
             <div className="text-end">
+            <Botao texto="Deletar" onClick={null} tipo="btn-delete" />
             <Botao texto="Salvar" onClick={null} tipo="btn-salva" />
             </div>
         </div>

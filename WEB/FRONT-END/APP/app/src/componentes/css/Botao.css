@@ -8,9 +8,48 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 20px; /* Espaço para garantir que o botão não fique colado aos outros elementos */
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .botao-laranja:hover {
     background-color: #d45718;
+}
+.btn-salva:hover{
+    background-color: #198754;
+}
+.btn-salva {
+    background-color: #F9681C;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.botao-delete:hover {
+    background-color: #d45718;
+}
+.btn-delete:hover{
+    background-color: #FF0033;
+}
+.btn-delete {
+    background-color: #F9681C;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
 }

@@ -23,3 +23,17 @@
     background-color: #FF7043;  /* Cor do botão ao passar o mouse */
     border-color: #FF7043;  /* Cor da borda ao passar o mouse */
 }
+/* Altera a cor do ícone do botão de fechar */
+.modal-header .btn-close {
+    border: none; /* Remove qualquer borda se houver */
+}
+
+.modal-header .btn-close span {
+    color: red !important; /* Altera a cor do "X" do botão de fechar */
+}
+
+/* Altera a cor ao passar o mouse */
+.modal-header .btn-close:hover span {
+    color: green !important; /* Cor ao passar o mouse */
+}
+

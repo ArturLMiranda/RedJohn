@@ -1,0 +1,32 @@
+.menu-suspenso {
+    background:#2F2F31 ;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    margin-top: -1%;
+}
+
+.obrigatorio {
+    color: orange;
+}
+
+.btn-dark {
+    background-color: #212121;
+    border: none;
+}
+
+.btn-dark:checked {
+    background-color: #007bff !important; /* Azul quando selecionado */
+}
+
+#andamento:checked {
+    background-color: yellow !important;
+}
+
+#resolvido:checked {
+    background-color: green !important;
+}
+
+#erro:checked {
+    background-color: red !important;
+}

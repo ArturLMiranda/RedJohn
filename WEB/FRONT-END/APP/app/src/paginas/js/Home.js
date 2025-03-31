@@ -3,11 +3,10 @@ import BarraLateral from '../../componentes/js/BarraLateral';
 import BarraSuperior from '../../componentes/js/BarraSuperior';
 import Botao from '../../componentes/js/Botao';
 import CardDemanda from '../../componentes/js/CardDemanda';
-import Modalp from '../../componentes/js/Modalp';  // Corrija o caminho se necessário
-
+import Modalp from '../../componentes/js/Modalp';  // Corrigido o caminho
+import NovaDemanda from '../../componentes/js/NovaDemanda';  // Corrigido o caminho
 import { Container, Row, Col } from 'react-bootstrap'; // Importando Bootstrap
 import '../css/Home.css'; 
-
 
 const Home = () => {
     const [modalVisivel, setModalVisivel] = useState(false);
@@ -40,7 +39,9 @@ const Home = () => {
                             ))}
                         </Row>
                     </Container>
-                    <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)} />
+                    <Modalp  show={modalVisivel} handleClose={() => setModalVisivel(false)}>
+                        <NovaDemanda />
+                    </Modalp>
                 </div>
             </div>
         </div>

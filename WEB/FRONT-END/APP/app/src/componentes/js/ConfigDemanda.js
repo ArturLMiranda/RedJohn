@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Row, Col, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
-const NovaDemanda = () => {
+const ConfigDemanda = () => {
     const [status, setStatus] = useState('Aguardando');
 
     return (
@@ -69,4 +69,4 @@ const NovaDemanda = () => {
     );
 };
 
-export default NovaDemanda;
+export default ConfigDemanda;

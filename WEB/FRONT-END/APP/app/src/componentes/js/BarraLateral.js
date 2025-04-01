@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { FaBars } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 import '../css/BarraLateral.css';
 
 const BarraLateral = () => {
     const [expandida, setExpandida] = useState(false);
     const [submenuAberto, setSubmenuAberto] = useState(null);
-
+    const navigate = useNavigate(); 
     const toggleExpandir = () => setExpandida(!expandida);
     const toggleSubmenu = (menu) =>
         setSubmenuAberto(submenuAberto === menu ? null : menu);
@@ -25,8 +26,8 @@ const BarraLateral = () => {
                             </button>
                             {submenuAberto === 'monitoramento' && (
                                 <ul className="submenu">
-                                    <li>Demandas</li>
-                                    <li>Erros</li>
+                                    <li onClick={() => navigate('/home')}>Demandas</li>
+                                    <li onClick={() => navigate('/Erro')}>Erros</li>
                                 </ul>
                             )}
                         </li>

@@ -14,13 +14,13 @@ const Home = () => {
     const [demandaSelecionada, setDemandaSelecionada] = useState(null);
 
     const dados = [
-        { titulo: 'Fazer telas para o wazhur no zabix', demandante: 'João', responsavel: 'Maria', descricao: 'Detalhes...', cor: '#FFCC00' },
+        { titulo: 'Fazer telas para o wazhur no zabix', demandante: 'João', responsavel: 'Maria', descricao: 'Detalhes...', cor: '#FF5733' },
         { titulo: 'Demanda 2', demandante: 'Carlos', responsavel: 'Ana', descricao: 'Detalhes...', cor: '#FF5733' },
-        { titulo: 'Demanda 3', demandante: 'Fernanda', responsavel: 'Juliana', descricao: 'Detalhes...', cor: '#33FF57' },
-        { titulo: 'Demanda 4', demandante: 'Ricardo', responsavel: 'Roberta', descricao: 'Detalhes...', cor: '#33A1FF' },
-        { titulo: 'Demanda 5', demandante: 'Mariana', responsavel: 'Paulo', descricao: 'Detalhes...', cor: '#FF9933' },
-        { titulo: 'Demanda 6', demandante: 'Bruno', responsavel: 'Carla', descricao: 'Detalhes...', cor: '#FF3399' },
-        { titulo: 'Demanda 7', demandante: 'Gustavo', responsavel: 'Bianca', descricao: 'Detalhes...', cor: '#FFCCFF' }
+        { titulo: 'Demanda 3', demandante: 'Fernanda', responsavel: 'Juliana', descricao: 'Detalhes...', cor: '#FF5733' },
+        { titulo: 'Demanda 4', demandante: 'Ricardo', responsavel: 'Roberta', descricao: 'Detalhes...', cor: '#FF5733' },
+        { titulo: 'Demanda 5', demandante: 'Mariana', responsavel: 'Paulo', descricao: 'Detalhes...', cor: '#FF5733' },
+        { titulo: 'Demanda 6', demandante: 'Bruno', responsavel: 'Carla', descricao: 'Detalhes...', cor: '#FF5733' },
+        { titulo: 'Demanda 7', demandante: 'Gustavo', responsavel: 'Bianca', descricao: 'Detalhes...', cor: '#FF5733' }
     ];
 
     const abrirModalDemanda = (demanda) => {
@@ -30,9 +30,6 @@ const Home = () => {
 
     return (
                 <Tela>
-                    <div className="up">
-                        <Botao texto="Nova Demanda" tipo={"botao-laranja"} onClick={() => setModalVisivel(true)} />
-                    </div>
                     <Container fluid className="conteudo">
                         <Row className="gx-3 gy-3">
                             {dados.map((d, index) => (

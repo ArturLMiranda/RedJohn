@@ -20,3 +20,9 @@
 .botao-config:hover {
     background: rgba(255, 255, 255, 0.1);
 }
+.Stautus{
+    overflow: hidden;
+    background-color: #2F2F31;
+    color: white;
+    height: 100%;
+}

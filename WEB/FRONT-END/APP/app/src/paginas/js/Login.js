@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Form, Card, Container } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Form, Card, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom"; // Importando para navegação
 import '../css/BackCroud.css';
 import '../css/Login.css';
 import Botao from '../../componentes/js/Botao';
@@ -8,11 +9,15 @@ import logoImg from '../../componentes/asserts/logo1.png';
 const Login = () => {
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
+    const navigate = useNavigate(); // Hook para navegação
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Nome:', nome);
         console.log('Senha:', senha);
+        
+        // Redireciona para a Home após login
+        navigate('/home');
     };
 
     return (
@@ -21,15 +26,12 @@ const Login = () => {
                 <Card className="login-box" style={{ background: "#2F2F31", color: "#FA7530" }}>
                     <Card.Body>
                         <div className="text-center">
-                            <div className="logo" > 
+                            <div className="logo"> 
                                 <img 
                                     className="logo-imag"
                                     src={logoImg} 
-                                    alt="Logo"  
-                                    style={{
-                                        maxWidth: "80%",
-                                        height: "auto"
-                                    }}
+                                    alt="Logo"
+                                    style={{ maxWidth: "80%", height: "auto" }}
                                 />
                             </div>
                         </div>
@@ -55,8 +57,8 @@ const Login = () => {
                                     required
                                 />
                             </Form.Group>
-                            
-                            <Botao texto="Entrar" tipo="btn-entrar w-100" />
+
+                            <Botao texto="Entrar" tipo="btn-entrar w-100" onClick={handleSubmit} />
                         </Form>
                     </Card.Body>
                 </Card>

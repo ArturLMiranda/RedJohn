@@ -1,7 +1,7 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './js/Login';
-import Home from './js/Home';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./paginas/js/Login";
+import Home from "./paginas/js/Home";
 
 const AppRoutes = () => {
     return (

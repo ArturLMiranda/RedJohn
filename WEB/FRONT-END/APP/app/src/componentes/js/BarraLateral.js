@@ -37,7 +37,7 @@ const BarraLateral = () => {
                             </button>
                             {submenuAberto === 'cadastros' && (
                                 <ul className="submenu">
-                                    <li onClick={() => navigate('/Uzuarios')}>Uzuarios</li>
+                                    <li onClick={() => navigate('/Usuario')}>Usuario</li>
                                     <li onClick={() => navigate('/Responsaves')}>Responsaves</li>
                                     <li onClick={() => navigate('/Demandantes')}>Demandantes</li>
                                 </ul>

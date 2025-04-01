@@ -14,7 +14,6 @@
     border-radius: 10px;
 }
 .login-box {
-    background: #2F2F31;
     border-radius: 10px;
     padding: 30px;
     color: #FA7530;
@@ -28,4 +27,18 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Certifica que a div pode expandir */
+    display: 'flex';
+}
+.logo-imag{
+    width: 200%;
+    height: auto;
+}
+Form.Labe{
+    color: #FA7530;
 }

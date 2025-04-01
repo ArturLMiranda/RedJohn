@@ -1,32 +1,46 @@
 import React, { useState } from 'react';
-import { Form, Button, Card, Container } from 'react-bootstrap';
+import { Form, Card, Container } from 'react-bootstrap';
 import '../css/BackCroud.css';
 import '../css/Login.css';
+import Botao from '../../componentes/js/Botao';
+import logoImg from '../../componentes/asserts/logo1.png';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
+    const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Email:', email);
+        console.log('Nome:', nome);
         console.log('Senha:', senha);
     };
 
     return (
         <div className="back-croud">
             <Container className="login-container">
-                <Card className="login-box">
+                <Card className="login-box" style={{ background: "#2F2F31", color: "#FA7530" }}>
                     <Card.Body>
-                        <h2 className="text-center">Login</h2>
+                        <div className="text-center">
+                            <div className="logo" > 
+                                <img 
+                                    className="logo-imag"
+                                    src={logoImg} 
+                                    alt="Logo"  
+                                    style={{
+                                        maxWidth: "80%",
+                                        height: "auto"
+                                    }}
+                                />
+                            </div>
+                        </div>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Nome</Form.Label>
                                 <Form.Control
-                                    type="email"
-                                    placeholder="Digite seu email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    type="text"
+                                    placeholder="Digite seu nome"
+                                    value={nome}
+                                    onChange={(e) => setNome(e.target.value)}
                                     required
                                 />
                             </Form.Group>
@@ -41,10 +55,8 @@ const Login = () => {
                                     required
                                 />
                             </Form.Group>
-
-                            <Button  type="submit" style={{backgroundColor:'#FA7530'}} className="w-100">
-                                Entrar
-                            </Button>
+                            
+                            <Botao texto="Entrar" tipo="btn-entrar w-100" />
                         </Form>
                     </Card.Body>
                 </Card>

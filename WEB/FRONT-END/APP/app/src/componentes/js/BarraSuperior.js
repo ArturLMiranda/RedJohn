@@ -8,8 +8,8 @@ import logoImg from '../asserts/logo1.png'; // Caminho relativo para a imagem
 const BarraSuperior = () => {
     return (
         <div className="barra-superior">
-            <Row className="align-items-center">
-                <Col xs={12} sm={6} md={8} className="logo">
+            <Row>
+                <Col  className="c-3">
                     {/* Usando a imagem importada */}
                     <img 
                         src={logoImg} 

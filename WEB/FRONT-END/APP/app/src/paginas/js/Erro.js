@@ -8,7 +8,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import '../css/Home.css';
 import Tela from '../../componentes/js/Tela';
 
-const Home = () => {
+const Erro = () => {
     const [modalVisivel, setModalVisivel] = useState(false);
     const [modalDemandaVisivel, setModalDemandaVisivel] = useState(false);
     const [demandaSelecionada, setDemandaSelecionada] = useState(null);
@@ -49,4 +49,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Erro;

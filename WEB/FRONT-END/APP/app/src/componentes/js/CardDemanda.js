@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import { FaCog } from 'react-icons/fa';
-
+import BotaoEngrenagem from './BotaoEngrenagem';
 const CardDemanda = ({ titulo, demandante, responsavel, descricao, cor, onOpenModal }) => {
     return (
         <Card className="card-demanda" style={{ overflow: 'hidden', backgroundColor: '#2F2F31', color: 'white', height: '100%' }}>
@@ -14,20 +14,7 @@ const CardDemanda = ({ titulo, demandante, responsavel, descricao, cor, onOpenMo
                                 <Card.Title>{titulo}</Card.Title>
                             </Col>
                             <Col xs={1} className="text-end" style={{ position: 'absolute', top: '10px', right: '10px' }}>
-                            <Button 
-                                style={{ backgroundColor: '#2F2F31', borderColor: '#2F2F31' }}
-                                className="botao-config"
-                                onClick={() => {
-                                    console.log('🔧 Botão de engrenagem clicado!'); // Teste no console
-                                    if (onOpenModal) {
-                                        onOpenModal();
-                                    } else {
-                                        console.log('⚠️ onOpenModal está indefinido!');
-                                    }
-                                }}
-                            >
-                                <FaCog style={{ color: '#FA7530' }} />
-                            </Button>
+                                <BotaoEngrenagem onClick={onOpenModal}/>
                             </Col>
                         </Row>
                         <Row><Col><p><strong>Demandante:</strong> {demandante}</p></Col></Row>

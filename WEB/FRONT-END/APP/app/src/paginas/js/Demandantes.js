@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form } from 'react-bootstrap';
-import BotaoEngrenagem from '../../componentes/js/BotaoEngrenagem';
+import Modalp from '../../componentes/js/Modalp';
 import Telabtn from '../../componentes/js/Telabtn';
 import Linhas from "../../componentes/js/Linhas";
+import FormularioNomeConfig from "../../componentes/js/FormularioNomeConfig";
 
 const Demandantes = () => {
     const [demandantes, setDemandantes] = useState([]);
     const [modalVisivel, setModalVisivel] = useState(false);
+    const [demandanteSelecionado, setDemandanteSelecionado] = useState(null);
 
     useEffect(() => {
         // Simulação de dados vindos do backend
@@ -22,9 +23,19 @@ const Demandantes = () => {
     }, []);
 
     return (
-        <Telabtn textoBotao="Novo Demandante" onClick={null}>
-            <Linhas lista={demandantes} onclick={() => setModalVisivel(true)} />
-        </Telabtn>
+        <>
+            <Telabtn textoBotao="Novo Demandante" onClick={() => setModalVisivel(true)}>
+                <Linhas lista={demandantes} onclick={(item) => {
+                    setDemandanteSelecionado(item);
+                    setModalVisivel(true);
+                }} />
+            </Telabtn>
+
+            {/* Modal de Configuração do Demandante */}
+            <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)}>
+                <FormularioNomeConfig demandante={demandanteSelecionado} />
+            </Modalp>
+        </>
     );
 };
 

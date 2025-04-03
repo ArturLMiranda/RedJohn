@@ -5,11 +5,12 @@ import { Container, Row, Col } from 'react-bootstrap';
 import '../css/Home.css';
 import Telabtn from '../../componentes/js/Telabtn';
 import LinhasUsuarios from '../../componentes/js/LinhasUsuarioas';
-import FormularioNomeConfig from '../../componentes/js/FomurarioNomeConfig';
-
+import FormularioNomeConfig from '../../componentes/js/FormularioNome';
+import FomurarioNome from '../../componentes/js/FormularioNomeConfig';
 
 const Usuario = () => {
     const [modalVisivel, setModalVisivel] = useState(false);
+    const [modalVisivel2, setModalVisivel2] = useState(false);
 
     // Lista de usuários
     const usuarios = [
@@ -21,11 +22,14 @@ const Usuario = () => {
     return (
         <>
             <Telabtn textoBotao="Novo Responsável" onClick={() => setModalVisivel(true)}>
-                <LinhasUsuarios lista={usuarios} onclick={() => setModalVisivel(true)} />
+                <LinhasUsuarios lista={usuarios} onclick={() => setModalVisivel2(true)} />
             </Telabtn>
 
             <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)}>
                 <FormularioNomeConfig />
+            </Modalp>
+            <Modalp show={modalVisivel2} handleClose={() => setModalVisivel2(false)}>
+                <FomurarioNome />
             </Modalp>
         </>
     );

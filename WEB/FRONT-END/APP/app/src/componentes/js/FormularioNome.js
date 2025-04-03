@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Row, Col, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
-const FomurarioNomeConfig = () => {
+const FomurarioNome = (onClick) => {
     const [status, setStatus] = useState('Aguardando');
 
     return (
@@ -16,13 +16,10 @@ const FomurarioNomeConfig = () => {
             </Form.Group>
             {/* Botão de envio */}
             <div className="text-end">
-            <Botao texto="Salvar" onClick={null} tipo="btn-salva" />
-            </div>
-            <div className="text-end">
-            <Botao texto="Salvar" onClick={null} tipo="btn-delete" />
+            <Botao texto="Salvar" onClick={onClick} tipo="btn-salva" />
             </div>
         </div>
     );
 };
 
-export default FomurarioNomeConfig;
+export default FomurarioNome;

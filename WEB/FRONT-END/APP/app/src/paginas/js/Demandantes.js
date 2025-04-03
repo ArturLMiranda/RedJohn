@@ -3,11 +3,12 @@ import Modalp from '../../componentes/js/Modalp';
 import Telabtn from '../../componentes/js/Telabtn';
 import Linhas from "../../componentes/js/Linhas";
 import FormularioNomeConfig from "../../componentes/js/FormularioNomeConfig";
+import FormularioNome from "../../componentes/js/FormularioNome";
 
 const Demandantes = () => {
     const [demandantes, setDemandantes] = useState([]);
-    const [modalVisivel, setModalVisivel] = useState(false);
-    const [demandanteSelecionado, setDemandanteSelecionado] = useState(null);
+    const [modalCadastroVisivel, setModalCadastroVisivel] = useState(false);
+    const [modalConfigVisivel, setModalConfigVisivel] = useState(false);
 
     useEffect(() => {
         // Simulação de dados vindos do backend
@@ -24,16 +25,23 @@ const Demandantes = () => {
 
     return (
         <>
-            <Telabtn textoBotao="Novo Demandante" onClick={() => setModalVisivel(true)}>
-                <Linhas lista={demandantes} onclick={(item) => {
-                    setDemandanteSelecionado(item);
-                    setModalVisivel(true);
-                }} />
+            <Telabtn textoBotao="Novo Demandante" onClick={() => setModalCadastroVisivel(true)}>
+                <Linhas 
+                    lista={demandantes} 
+                    onclick={(item) => {
+                        setModalConfigVisivel(true);
+                    }} 
+                />
             </Telabtn>
 
-            {/* Modal de Configuração do Demandante */}
-            <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)}>
-                <FormularioNomeConfig demandante={demandanteSelecionado} />
+            {/* Modal de Configuração do Nome */}
+            <Modalp show={modalConfigVisivel} handleClose={() => setModalConfigVisivel(false)}>
+                <FormularioNomeConfig/>
+            </Modalp>
+
+            {/* Modal de Cadastro de Nome */}
+            <Modalp show={modalCadastroVisivel} handleClose={() => setModalCadastroVisivel(false)}>
+                <FormularioNome />
             </Modalp>
         </>
     );

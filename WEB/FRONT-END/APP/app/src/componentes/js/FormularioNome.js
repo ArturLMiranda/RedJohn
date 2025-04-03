@@ -18,6 +18,7 @@ const FomurarioNome = (onClick) => {
             <div className="text-end">
             <Botao texto="Salvar" onClick={onClick} tipo="btn-salva" />
             </div>
+            
         </div>
     );
 };

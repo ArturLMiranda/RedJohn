@@ -6,7 +6,7 @@ import '../css/Home.css';
 import Telabtn from '../../componentes/js/Telabtn';
 import LinhasUsuarios from '../../componentes/js/LinhasUsuarioas';
 import FormularioNomeConfig from '../../componentes/js/FormularioNome';
-import FomurarioNome from '../../componentes/js/FormularioNomeConfig';
+import FormularioUsuario from '../../componentes/js/FormularioUsuario';
 
 const Usuario = () => {
     const [modalVisivel, setModalVisivel] = useState(false);
@@ -29,7 +29,7 @@ const Usuario = () => {
                 <FormularioNomeConfig />
             </Modalp>
             <Modalp show={modalVisivel2} handleClose={() => setModalVisivel2(false)}>
-                <FomurarioNome />
+                <FormularioUsuario />
             </Modalp>
         </>
     );

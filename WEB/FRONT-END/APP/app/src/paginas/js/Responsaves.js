@@ -29,7 +29,7 @@ const Responsaveis = () => {
 
             {/* Modal de Configuração do Nome */}
             <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)}>
-                <FormularioNomeConfig responsavel={responsavelSelecionado} />
+                <FormularioNomeConfig/>
             </Modalp>
 
             {/* Modal de Cadastro de Nome */}

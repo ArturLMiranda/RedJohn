@@ -13,7 +13,7 @@ const CardDemanda = ({ titulo, demandante, responsavel, descricao, cor, onOpenMo
                             <Col xs={11} className="text-center">
                                 <Card.Title>{titulo}</Card.Title>
                             </Col>
-                            <Col xs={1} className="text-end" style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                            <Col xs={1} className="text-end" style={{ position: 'absolute', top: '10px', right: '-5px' }}>
                                 <BotaoEngrenagem onClick={onOpenModal}/>
                             </Col>
                         </Row>

@@ -25,7 +25,7 @@ const Demandantes = () => {
 
     return (
         <>
-            <Telabtn textoBotao="Novo Demandante" onClick={() => setModalCadastroVisivel(true)}>
+            <Telabtn textoBotao="Novo Demandante" onClick={() => setModalCadastroVisivel(true)} >
                 <Linhas 
                     lista={demandantes} 
                     onclick={(item) => {
@@ -35,12 +35,12 @@ const Demandantes = () => {
             </Telabtn>
 
             {/* Modal de Configuração do Nome */}
-            <Modalp show={modalConfigVisivel} handleClose={() => setModalConfigVisivel(false)}>
+            <Modalp show={modalConfigVisivel} handleClose={() => setModalConfigVisivel(false) }titulo={"Configuração Demandante"}>
                 <FormularioNomeConfig/>
             </Modalp>
 
             {/* Modal de Cadastro de Nome */}
-            <Modalp show={modalCadastroVisivel} handleClose={() => setModalCadastroVisivel(false)}>
+            <Modalp show={modalCadastroVisivel} handleClose={() => setModalCadastroVisivel(false)} titulo={"Novo Demandante"}>
                 <FormularioNome />
             </Modalp>
         </>

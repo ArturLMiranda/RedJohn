@@ -3,7 +3,7 @@ import { Form, Row, Col } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
 
-const FormularioUsuario = ({ onClick, onClickDelete }) => {
+const FormularioUsuarioNovo = ({ onClick, onClickDelete }) => {
     return (
         <div className="menu-suspenso p-3">
             {/* Nome */}
@@ -26,8 +26,8 @@ const FormularioUsuario = ({ onClick, onClickDelete }) => {
        
                 {/* Dropdown */}
                 <Form.Label column sm={3} style={{ marginTop: "2%" }}>Perfil</Form.Label>
-                <Col sm={3}>
-                    <Form.Select defaultValue="user" style={{ marginTop: "6%" }}>
+                <Col sm={9}>
+                    <Form.Select defaultValue="user" style={{ marginTop: "2%" }}>
                         <option value="">Selecione um perfil</option>
                         <option value="admin">Administrador</option>
                         <option value="user">Usuário</option>
@@ -38,11 +38,10 @@ const FormularioUsuario = ({ onClick, onClickDelete }) => {
 
             {/* Botão de envio */}
             <div className="text-end">
-                <Botao texto="Excluir" onClick={onClickDelete} tipo="btn-delete" />
                 <Botao texto="Salvar" onClick={onClick} tipo="btn-salva" />
             </div>
         </div>
     );
 };
 
-export default FormularioUsuario;
+export default FormularioUsuarioNovo;

@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap'; // Importando componentes do Bootstr
 import '../css/BarraSuperior.css';
 
 // Importando a imagem
-import logoImg from '../asserts/logo1.png'; // Caminho relativo para a imagem
+import logoImg from '../Img/logo1.png'; // Caminho relativo para a imagem
 
 const BarraSuperior = () => {
     return (

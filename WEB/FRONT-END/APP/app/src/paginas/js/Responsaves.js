@@ -28,12 +28,12 @@ const Responsaveis = () => {
             </Telabtn>
 
             {/* Modal de Configuração do Nome */}
-            <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)}>
+            <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)} titulo={"Configuração Responsavel"}>
                 <FormularioNomeConfig/>
             </Modalp>
 
             {/* Modal de Cadastro de Nome */}
-            <Modalp show={modalVisivel2} handleClose={() => setModalVisivel2(false)}>
+            <Modalp show={modalVisivel2} handleClose={() => setModalVisivel2(false)} titulo={"Novo Responsavel"}>
                 <FormularioNome />
             </Modalp>
         </>

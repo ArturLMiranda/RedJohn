@@ -4,8 +4,9 @@ import Modalp from '../../componentes/js/Modalp';
 import { Container, Row, Col } from 'react-bootstrap';
 import '../css/Home.css';
 import Telabtn from '../../componentes/js/Telabtn';
-import LinhasUsuarios from '../../componentes/js/LinhasUsuarioas';
-import FormularioNomeConfig from '../../componentes/js/FormularioNome';
+import LinhasUsuarios from '../../componentes/js/LinhasUsuarios'; // nome correto
+
+import FormularioUsuarioNovo from '../../componentes/js/FormularioUsuarioNovo';
 import FormularioUsuario from '../../componentes/js/FormularioUsuario';
 
 const Usuario = () => {
@@ -19,16 +20,26 @@ const Usuario = () => {
         { id: 3, nome: 'Usuário 3', tipo: 'Admin' }
     ];
 
+    // Função para abrir o modal ao clicar em um usuário
+    const abrirModalUsuario = () => {
+        console.log("Abrindo modal de configuração do usuário...");
+        setModalVisivel2(true);
+    };
+
     return (
         <>
-            <Telabtn textoBotao="Novo Responsável" onClick={() => setModalVisivel(true)}>
-                <LinhasUsuarios lista={usuarios} onclick={() => setModalVisivel2(true)} />
+            <Telabtn textoBotao="Novo Usuário" onClick={() => setModalVisivel(true)}>
+                <LinhasUsuarios lista={usuarios} onClick={() => setModalVisivel2(true)} /> 
             </Telabtn>
 
-            <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)}>
-                <FormularioNomeConfig />
+
+            {/* Modal para novo usuário */}
+            <Modalp show={modalVisivel} titulo="Novo Usuário" handleClose={() => setModalVisivel(false)}>
+                <FormularioUsuarioNovo />
             </Modalp>
-            <Modalp show={modalVisivel2} handleClose={() => setModalVisivel2(false)}>
+
+            {/* Modal para editar usuário */}
+            <Modalp show={modalVisivel2} titulo="Configuração do Usuário" handleClose={() => setModalVisivel2(false)}>
                 <FormularioUsuario />
             </Modalp>
         </>

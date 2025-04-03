@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import '../css/Modal.css';
 
-const Modalp = ({ show, handleClose, children }) => {
+const Modalp = ({ show, handleClose, children ,titulo}) => {
     return (
         <Modal 
             show={show} 
@@ -14,7 +14,7 @@ const Modalp = ({ show, handleClose, children }) => {
                 closeButton 
                 style={{ backgroundColor: '#2F2F31', color: 'white' }}
             >
-                <Modal.Title>Nova Demanda</Modal.Title>
+                <Modal.Title>{titulo}</Modal.Title>
             </Modal.Header>
             <Modal.Body 
                 style={{ backgroundColor: '#2F2F31', color: 'white', padding: "0" }}

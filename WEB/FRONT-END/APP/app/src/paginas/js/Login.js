@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import { Form, Card, Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom"; // Importando para navegação
+import { useNavigate } from "react-router-dom";
 import '../css/BackCroud.css';
 import '../css/Login.css';
 import Botao from '../../componentes/js/Botao';
 import logoImg from '../../componentes/Img/logo1.png';
+import { validar } from '../../utils/loginValidacao'; 
 
 const Login = () => {
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
-    const navigate = useNavigate(); // Hook para navegação
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Nome:', nome);
-        console.log('Senha:', senha);
-        
-        // Redireciona para a Home após login
+    
+        const valido = await validar(nome, senha);
+        if (!valido) {
+            console.log("Login inválido. Verifique nome e senha.");
+            return;
+        }
+    
+        // Login aprovado!
         navigate('/home');
     };
 
@@ -26,10 +31,10 @@ const Login = () => {
                 <Card className="login-box" style={{ background: "#2F2F31", color: "#FA7530" }}>
                     <Card.Body>
                         <div className="text-center">
-                            <div className="logo"> 
-                                <img 
+                            <div className="logo">
+                                <img
                                     className="logo-imag"
-                                    src={logoImg} 
+                                    src={logoImg}
                                     alt="Logo"
                                     style={{ maxWidth: "80%", height: "auto" }}
                                 />

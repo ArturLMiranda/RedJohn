@@ -11,17 +11,20 @@ const Demandantes = () => {
     const [modalConfigVisivel, setModalConfigVisivel] = useState(false);
 
     useEffect(() => {
-        // Simulação de dados vindos do backend
         const fetchDemandantes = async () => {
-            const dados = [
-                { id: 1, nome: 'Demandante 1' },
-                { id: 2, nome: 'Demandante 2' },
-                { id: 3, nome: 'Demandante 3' }
-            ];
-            setDemandantes(dados);
+            try {
+                const response = await fetch("http://localhost:8000/api/demandantes/ultimos/");
+                if (!response.ok) throw new Error("Erro ao buscar demandantes");
+                const dados = await response.json();
+                setDemandantes(dados);
+            } catch (error) {
+                console.error("Erro ao buscar demandantes:", error.message);
+            }
         };
         fetchDemandantes();
     }, []);
+    
+    
 
     return (
         <>

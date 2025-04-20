@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Form, Card, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import '../css/BackCroud.css';
-import '../css/Login.css';
+import '../css/Login.css'; 
 import Botao from '../../componentes/js/Botao';
 import logoImg from '../../componentes/Img/logo1.png';
-import { validar } from '../../utils/loginValidacao'; 
+import { autenticarUsuario } from '../../componentes/utils/loguin';
 
 const Login = () => {
     const [nome, setNome] = useState('');
@@ -14,15 +14,12 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        const valido = await validar(nome, senha);
-        if (!valido) {
-            console.log("Login inválido. Verifique nome e senha.");
-            return;
+        const sucesso = await autenticarUsuario(nome, senha);
+        if (sucesso) {
+            navigate("/dashboard"); // ou outra rota
+        } else {
+            alert("Usuário ou senha inválidos.");
         }
-    
-        // Login aprovado!
-        navigate('/home');
     };
 
     return (
@@ -73,3 +70,4 @@ const Login = () => {
 };
 
 export default Login;
+

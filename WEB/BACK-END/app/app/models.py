@@ -29,14 +29,33 @@ class Responsavel(models.Model):
         return self.nome
 
 
+# models.py
 class Atividade(models.Model):
+    STATUS_CHOICES = [
+        ('aguardando', 'Aguardando'),
+        ('em_andamento', 'Em Andamento'),
+        ('resolvido', 'Resolvido'),
+        ('erro', 'Erro'),
+    ]
+    
     descricao = models.TextField()
     validade = models.DateField()
     demandante = models.ForeignKey(Demandante, on_delete=models.CASCADE)
     responsaveis = models.ManyToManyField(Responsavel, through='AtividadeResponsavel')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='aguardando')
+
+    def cor_status(self):
+        cores = {
+            'aguardando': '#33A1FF',   # Azul
+            'em_andamento': '#FFCC00', # Amarelo
+            'resolvido': '#33FF57',    # Verde
+            'erro': '#FF3399'          # Vermelho
+        }
+        return cores.get(self.status, '#FFFFFF')
 
     def __str__(self):
         return f'{self.descricao[:30]}...'
+
 
 
 class AtividadeResponsavel(models.Model):

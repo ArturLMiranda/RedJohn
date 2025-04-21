@@ -7,21 +7,15 @@ import NovaDemanda from '../../componentes/js/NovaDemanda';
 import { Container, Row, Col } from 'react-bootstrap';
 import '../css/Home.css';
 import Tela from '../../componentes/js/Tela';
+import buscarAtividades from '../../componentes/utils/buscarAtividades';
 
 const Home = () => {
     const [modalVisivel, setModalVisivel] = useState(false);
     const [modalDemandaVisivel, setModalDemandaVisivel] = useState(false);
-    const [demandaSelecionada, setDemandaSelecionada] = useState(null);
-
-    const dados = [
-        { titulo: 'Fazer telas para o wazhur no zabix', demandante: 'João', responsavel: 'Maria', descricao: 'Detalhes...', cor: '#FFCC00' },
-        { titulo: 'Demanda 2', demandante: 'Carlos', responsavel: 'Ana', descricao: 'Detalhes...', cor: '#FF5733' },
-        { titulo: 'Demanda 3', demandante: 'Fernanda', responsavel: 'Juliana', descricao: 'Detalhes...', cor: '#33FF57' },
-        { titulo: 'Demanda 4', demandante: 'Ricardo', responsavel: 'Roberta', descricao: 'Detalhes...', cor: '#33A1FF' },
-        { titulo: 'Demanda 5', demandante: 'Mariana', responsavel: 'Paulo', descricao: 'Detalhes...', cor: '#FF9933' },
-        { titulo: 'Demanda 6', demandante: 'Bruno', responsavel: 'Carla', descricao: 'Detalhes...', cor: '#FF3399' },
-        { titulo: 'Demanda 7', demandante: 'Gustavo', responsavel: 'Bianca', descricao: 'Detalhes...', cor: '#FFCCFF' }
-    ];
+    const [dados, setDados] = useState([]);
+    useEffect(() => {
+        buscarAtividades().then(setDados);
+    }, []);
 
     const abrirModalDemanda = (demanda) => {
         setDemandaSelecionada(demanda);

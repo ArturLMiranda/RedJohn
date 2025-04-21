@@ -16,7 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from .views import login_view
+from .views import listar_atividades,criar_atividade,deletar_atividade,editar_atividade
+from .views import criar_usuario,editar_usuario,deletar_usuario,listar_usuarios
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("api/login/", login_view, name="login"),
+    path('api/atividades/', listar_atividades, name='listar_atividades'),
+    path('api/atividades/criar/', views.criar_atividade, name='criar_atividade'),
+    path('api/atividade/<int:id>/editar', views.editar_atividade, name='editar_atividade'),
+    path('api/atividade/<int:id>/', views.deletar_atividade, name='deletar_atividade'),
+    path('api/usuarios/<int:usuario_id>/editar/', editar_usuario, name='editar_usuario'),
+    path('api/usuarios/criar/', views.criar_usuario, name='criar_usuario'),
+    path('api/usuarios/<int:usuario_id>/deletar/', deletar_usuario),
+    path('api/usuarios/', listar_usuarios),
 ]

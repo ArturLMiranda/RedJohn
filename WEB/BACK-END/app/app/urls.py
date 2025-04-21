@@ -19,7 +19,7 @@ from django.urls import path
 from .views import login_view
 from .views import listar_atividades,criar_atividade,deletar_atividade,editar_atividade
 from .views import criar_usuario,editar_usuario,deletar_usuario,listar_usuarios
-
+from .views import listar_responsaveis,criar_responsave
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,4 +32,7 @@ urlpatterns = [
     path('api/usuarios/criar/', views.criar_usuario, name='criar_usuario'),
     path('api/usuarios/<int:usuario_id>/deletar/', deletar_usuario),
     path('api/usuarios/', listar_usuarios),
+    path('api/responsaveis/', views.listar_responsaveis, name='listar_responsaveis'),
+    path('api/responsaveis/', criar_responsavel),
+
 ]

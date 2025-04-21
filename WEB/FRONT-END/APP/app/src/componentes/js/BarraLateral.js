@@ -27,7 +27,6 @@ const BarraLateral = () => {
                             {submenuAberto === 'monitoramento' && (
                                 <ul className="submenu">
                                     <li onClick={() => navigate('/home')}>Demandas</li>
-                                    <li onClick={() => navigate('/Erro')}>Erros</li>
                                 </ul>
                             )}
                         </li>

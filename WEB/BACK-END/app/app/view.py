@@ -159,20 +159,86 @@ class Atividade(models.Model):
 
     def __str__(self):
         return f'{self.descricao[:30]}...'
+@csrf_exempt
+def criar_usuario(request):
+    if request.method == 'POST':
+        try:
+            dados = json.loads(request.body)
+            nome = dados.get('nome')
+            senha = dados.get('senha')
+            confirmar_senha = dados.get('confirmar_senha')
+            tipo_id = dados.get('tipo_id')
 
+            if not all([nome, senha, confirmar_senha, tipo_id]):
+                return JsonResponse({'erro': 'Todos os campos são obrigatórios.'}, status=400)
+            
+            if senha != confirmar_senha:
+                return JsonResponse({'erro': 'As senhas não coincidem.'}, status=400)
 
+            senha_hash = hashlib.sha256(senha.encode()).hexdigest()
 
-class AtividadeResponsavel(models.Model):
-    atividade = models.ForeignKey(Atividade, on_delete=models.CASCADE)
-    responsavel = models.ForeignKey(Responsavel, on_delete=models.CASCADE)
+            usuario = LoginUsuario.objects.create(nome=nome, senha=senha_hash)
+            tipo = Tipo.objects.get(id=tipo_id)
+            TipoLogin.objects.create(login=usuario, tipo=tipo)
 
-    class Meta:
-        unique_together = ('atividade', 'responsavel')
+            return JsonResponse({'mensagem': 'Usuário criado com sucesso!'}, status=201)
+        except Exception as e:
+            return JsonResponse({'erro': str(e)}, status=500)
 
+    return JsonResponse({'erro': 'Método não permitido'}, status=405)
+@csrf_exempt
+def editar_usuario(request, usuario_id):
+    if request.method == 'PUT':
+        try:
+            dados = json.loads(request.body)
+            nome = dados.get('nome')
+            senha = dados.get('senha')
+            confirmar_senha = dados.get('confirmar_senha')
+            tipo_id = dados.get('tipo_id')
 
-class TipoLogin(models.Model):
-    tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE)
-    login = models.ForeignKey(LoginUsuario, on_delete=models.CASCADE)
+            usuario = LoginUsuario.objects.get(id=usuario_id)
 
-    class Meta:
-        unique_together = ('tipo', 'login')
+            if not all([nome, tipo_id]):
+                return JsonResponse({'erro': 'Nome e tipo são obrigatórios.'}, status=400)
+
+            if senha:
+                if senha != confirmar_senha:
+                    return JsonResponse({'erro': 'As senhas não coincidem.'}, status=400)
+                senha_hash = hashlib.sha256(senha.encode()).hexdigest()
+                usuario.senha = senha_hash
+
+            usuario.nome = nome
+            usuario.save()
+
+            tipo = Tipo.objects.get(id=tipo_id)
+            TipoLogin.objects.update_or_create(login=usuario, defaults={'tipo': tipo})
+
+            return JsonResponse({'mensagem': 'Usuário atualizado com sucesso!'})
+        except LoginUsuario.DoesNotExist:
+            return JsonResponse({'erro': 'Usuário não encontrado.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'erro': str(e)}, status=500)
+
+    return JsonResponse({'erro': 'Método não permitido'}, status=405)
+@csrf_exempt
+def deletar_usuario(request, usuario_id):
+    if request.method == 'DELETE':
+        usuario = get_object_or_404(LoginUsuario, id=usuario_id)
+        # Deleta a relação com tipo primeiro, se houver
+        TipoLogin.objects.filter(login=usuario).delete()
+        usuario.delete()
+        return JsonResponse({'mensagem': 'Usuário deletado com sucesso'})
+    return JsonResponse({'erro': 'Método não permitido'}, status=405)
+def listar_usuarios(request):
+    if request.method == 'GET':
+        usuarios = []
+        for usuario in LoginUsuario.objects.all():
+            tipo_login = TipoLogin.objects.filter(login=usuario).first()
+            tipo_nome = tipo_login.tipo.nome if tipo_login else 'Sem perfil'
+            usuarios.append({
+                'id': usuario.id,
+                'nome': usuario.nome,
+                'tipo': tipo_nome
+            })
+        return JsonResponse(usuarios, safe=False)
+        

@@ -5,9 +5,10 @@ import Telabtn from '../../componentes/js/Telabtn';
 import Linhas from '../../componentes/js/Linhas';
 import FormularioNomeConfig from '../../componentes/js/FormularioNomeConfig';
 import FormularioNome from '../../componentes/js/FormularioNome';
-
-import buscarResponsaveis from '../../utils/responsaveis/buscarResponsaveis';
-import criarResponsavel from '../../utils/responsaveis/criarResponsavel';
+import deletarResponsavel from '../../utils/deletarResponsavel';
+import buscarResponsaveis from '../../utils/buscarResponsaveis';
+import criarResponsavel from '../../utils/criarResponsavel';
+import editarResponsavel from '../../utils/editarResponsavel';
 
 const Responsaveis = () => {
     const [modalVisivel, setModalVisivel] = useState(false);
@@ -19,7 +20,27 @@ const Responsaveis = () => {
         const dados = await buscarResponsaveis();
         setResponsaveis(dados);
     };
-
+    const handleDeletarResponsavel = async () => {
+        if (responsavelSelecionado && window.confirm("Deseja realmente excluir este responsável?")) {
+            try {
+                await deletarResponsavel(responsavelSelecionado.id);
+                setModalVisivel(false);
+                carregarResponsaveis(); // Atualiza a lista
+            } catch (error) {
+                console.error('Erro ao deletar responsável:', error);
+            }
+        }
+    };
+    const handleEditarResponsavel = async (nome) => {
+        if (!responsavelSelecionado) return;
+        try {
+            await editarResponsavel(responsavelSelecionado.id, nome);
+            setModalVisivel(false);
+            carregarResponsaveis(); // Atualiza lista
+        } catch (error) {
+            console.error('Erro ao editar responsável:', error);
+        }
+    };
     useEffect(() => {
         carregarResponsaveis();
     }, []);
@@ -45,7 +66,7 @@ const Responsaveis = () => {
 
             {/* Modal de Configuração do Nome */}
             <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)} titulo={"Configuração Responsável"}>
-                <FormularioNomeConfig responsavel={responsavelSelecionado} />
+                <FormularioNomeConfig responsavel={responsavelSelecionado} onClickDelete={handleDeletarResponsavel} onClickSalvar={handleEditarResponsavel} />
             </Modalp>
 
             {/* Modal de Cadastro de Nome */}

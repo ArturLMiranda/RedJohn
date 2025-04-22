@@ -19,9 +19,9 @@ from django.urls import path
 from .views import login_view
 from .views import listar_atividades,criar_atividade,deletar_atividade,editar_atividade
 from .views import criar_usuario,editar_usuario,deletar_usuario,listar_usuarios
-from .views import listar_responsaveis,criar_responsave
+from .views import listar_responsaveis,criar_responsave,deletar_responsavel
 
-urlpatterns = [
+urlpatterns = [ 
     path('admin/', admin.site.urls),
     path("api/login/", login_view, name="login"),
     path('api/atividades/', listar_atividades, name='listar_atividades'),
@@ -34,5 +34,5 @@ urlpatterns = [
     path('api/usuarios/', listar_usuarios),
     path('api/responsaveis/', views.listar_responsaveis, name='listar_responsaveis'),
     path('api/responsaveis/', criar_responsavel),
-
+    path('api/responsaveis/<int:id>/', views.deletar_responsavel),
 ]

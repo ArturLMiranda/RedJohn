@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 import json
 import hashlib
-from .models import LoginUsuario,Atividade,Tipo, TipoLogin
+from .models import LoginUsuario,Atividade,Tipo, TipoLogin,Responsavel
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -241,4 +241,21 @@ def listar_usuarios(request):
                 'tipo': tipo_nome
             })
         return JsonResponse(usuarios, safe=False)
-        
+def listar_responsaveis(request):
+    if request.method == 'GET':
+        responsaveis = list(Responsavel.objects.values('id', 'nome'))
+        return JsonResponse(responsaveis, safe=False)
+@csrf_exempt
+def criar_responsavel(request):
+    if request.method == 'POST':
+        try:
+            dados = json.loads(request.body)
+            nome = dados.get('nome')
+            if nome:
+                responsavel = Responsavel.objects.create(nome=nome)
+                return JsonResponse({'id': responsavel.id, 'nome': responsavel.nome}, status=201)
+            else:
+                return JsonResponse({'erro': 'Nome é obrigatório'}, status=400)
+        except Exception as e:
+            return JsonResponse({'erro': str(e)}, status=500)
+    return JsonResponse({'erro': 'Método não permitido'}, status=405)

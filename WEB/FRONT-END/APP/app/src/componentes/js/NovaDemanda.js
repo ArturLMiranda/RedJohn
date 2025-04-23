@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Row, Col, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
-import criarDemanda from '../../componentes/utils/criarDemanda';
+import criarDemanda from '../utils/home/criarDemanda';
 
 const NovaDemanda = () => {
     const [status, setStatus] = useState('Aguardando');

@@ -5,10 +5,10 @@ import Telabtn from '../../componentes/js/Telabtn';
 import Linhas from '../../componentes/js/Linhas';
 import FormularioNomeConfig from '../../componentes/js/FormularioNomeConfig';
 import FormularioNome from '../../componentes/js/FormularioNome';
-import deletarResponsavel from '../../utils/deletarResponsavel';
-import buscarResponsaveis from '../../utils/buscarResponsaveis';
-import criarResponsavel from '../../utils/criarResponsavel';
-import editarResponsavel from '../../utils/editarResponsavel';
+import deletarResponsavel from '../../componentes/utils/Responsaves/deletarResponsavel';
+import buscarResponsaveis from '../../componentes/utils/Responsaves/buscarResponsaveis';
+import criarResponsavel from '../../componentes/utils/Responsaves/criarResponsavel';
+import editarResponsavel from '../../componentes/utils/Responsaves/editarResponsavel';
 
 const Responsaveis = () => {
     const [modalVisivel, setModalVisivel] = useState(false);

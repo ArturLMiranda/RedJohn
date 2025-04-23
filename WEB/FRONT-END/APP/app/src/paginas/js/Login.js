@@ -5,7 +5,7 @@ import '../css/BackCroud.css';
 import '../css/Login.css'; 
 import Botao from '../../componentes/js/Botao';
 import logoImg from '../../componentes/Img/logo1.png';
-import { autenticarUsuario } from '../../componentes/utils/loguin';
+import { autenticarUsuario } from '../../componentes/utils/login/autenticarUsuario ';
 
 const Login = () => {
     const [nome, setNome] = useState('');

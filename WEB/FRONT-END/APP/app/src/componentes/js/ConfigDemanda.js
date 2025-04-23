@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Form, Row, Col, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
-import { DeletarAtividade } from './utils/DeletarAtividade';  // Caminho correto para o arquivo
-import { EditarAtividade } from './utils/EditarAtividade';    // Novo import para edição
+import { DeletarAtividade } from '../utils/home/DeletarAtividade';  // Caminho correto para o arquivo
+import { EditarAtividade } from '../utils/home/EditarAtividade';    // Novo import para edição
 
 const ConfigDemanda = () => {
     const [atividadeId, setAtividadeId] = useState(null); // ID da atividade

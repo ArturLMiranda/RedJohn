@@ -1,50 +1,92 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Botao from '../../componentes/js/Botao';
 import Modalp from '../../componentes/js/Modalp';
-import { Container, Row, Col } from 'react-bootstrap';
 import '../css/Home.css';
 import Telabtn from '../../componentes/js/Telabtn';
-import LinhasUsuarios from '../../componentes/js/LinhasUsuarios';
-import FormularioUsuarioNovo from '../../componentes/js/FormularioUsuarioNovo';
-import FormularioUsuario from '../../componentes/js/FormularioUsuario';
+import Linhas from '../../componentes/js/Linhas';
+import FormularioNomeConfig from '../../componentes/js/FormularioNomeConfig';
+import FormularioNome from '../../componentes/js/FormularioNome';
+import deletarDemandante from '../../componentes/utils/Demandante/deletarDemandante';
+import buscarDemandantes from '../../componentes/utils/Demandante/buscarDemandantes';
+import criarDemandante from '../../componentes/utils/Demandante/criarDemandante';
+import editarDemandante from '../../componentes/utils/Demandante/editarDemandante';
 
-const Usuario = () => {
+const Demandante = () => {
     const [modalVisivel, setModalVisivel] = useState(false);
     const [modalVisivel2, setModalVisivel2] = useState(false);
-    const [usuarios, setUsuarios] = useState([]);
+    const [demandanteSelecionado, setDemandanteSelecionado] = useState(null);
+    const [demandantes, setDemandantes] = useState([]);
 
-    // Buscar usuários ao carregar
-    useEffect(() => {
-        axios.get('/api/usuarios/')
-            .then(res => {
-                setUsuarios(res.data);
-            })
-            .catch(err => {
-                console.error('Erro ao buscar usuários:', err);
-            });
-    }, []);
-
-    const abrirModalUsuario = () => {
-        console.log("Abrindo modal de configuração do usuário...");
-        setModalVisivel2(true);
+    // Função para carregar a lista de demandantes
+    const carregarDemandantes = async () => {
+        const dados = await buscarDemandantes();
+        setDemandantes(dados);
     };
+
+    // Função para deletar um demandante
+    const handleDeletarDemandante = async () => {
+        if (demandanteSelecionado && window.confirm("Deseja realmente excluir este demandante?")) {
+            try {
+                await deletarDemandante(demandanteSelecionado.id);
+                setModalVisivel(false);
+                carregarDemandantes(); // Atualiza a lista após exclusão
+            } catch (error) {
+                console.error('Erro ao deletar demandante:', error);
+            }
+        }
+    };
+
+    // Função para editar um demandante
+    const handleEditarDemandante = async (nome) => {
+        if (!demandanteSelecionado) return;
+        try {
+            await editarDemandante(demandanteSelecionado.id, nome);
+            setModalVisivel(false);
+            carregarDemandantes(); // Atualiza a lista após edição
+        } catch (error) {
+            console.error('Erro ao editar demandante:', error);
+        }
+    };
+
+    // Função para criar um novo demandante
+    const handleCriarDemandante = async (nome) => {
+        try {
+            await criarDemandante(nome);
+            setModalVisivel2(false);
+            carregarDemandantes(); // Atualiza a lista após criação
+        } catch (error) {
+            console.error('Erro ao criar demandante:', error);
+        }
+    };
+
+    // Carregar demandantes ao montar o componente
+    useEffect(() => {
+        carregarDemandantes();
+    }, []);
 
     return (
         <>
-            <Telabtn textoBotao="Novo Usuário" onClick={() => setModalVisivel(true)}>
-                <LinhasUsuarios lista={usuarios} onClick={abrirModalUsuario} />
+            <Telabtn textoBotao="Novo Demandante" onClick={() => setModalVisivel2(true)}>
+                <Linhas lista={demandantes} onclick={(item) => {
+                    setDemandanteSelecionado(item);
+                    setModalVisivel(true);
+                }} />
             </Telabtn>
 
-            <Modalp show={modalVisivel} titulo="Novo Usuário" handleClose={() => setModalVisivel(false)}>
-                <FormularioUsuarioNovo />
+            {/* Modal de Configuração do Nome do Demandante */}
+            <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)} titulo={"Configuração Demandante"}>
+                <FormularioNomeConfig 
+                    demandante={demandanteSelecionado} 
+                    onClickDelete={handleDeletarDemandante} 
+                    onClickSalvar={handleEditarDemandante} 
+                />
             </Modalp>
 
-            <Modalp show={modalVisivel2} titulo="Configuração do Usuário" handleClose={() => setModalVisivel2(false)}>
-                <FormularioUsuario />
+            {/* Modal de Cadastro de Novo Demandante */}
+            <Modalp show={modalVisivel2} handleClose={() => setModalVisivel2(false)} titulo={"Novo Demandante"}>
+                <FormularioNome onClick={handleCriarDemandante} />
             </Modalp>
         </>
     );
 };
 
-export default Usuario;
+export default Demandante;

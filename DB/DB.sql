@@ -1,3 +1,4 @@
+-- Criação e uso do banco de dados
 CREATE DATABASE IF NOT EXISTS sistema_atividades;
 USE sistema_atividades;
 
@@ -7,35 +8,62 @@ CREATE TABLE demandante (
     nome VARCHAR(255) NOT NULL
 );
 
--- Tabela Tipo
+-- Tabela Tipo (tipo de usuário)
 CREATE TABLE tipo (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL
 );
 
--- Tabela Login
+-- Inserção dos tipos de usuário
+INSERT INTO tipo (nome) VALUES ('admin'), ('user');
+
+-- Tabela LoginUsuario
 CREATE TABLE login_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     senha CHAR(64) NOT NULL -- SHA-256 gera um hash de 64 caracteres
 );
 
--- Tabela Atividade (agora com campo validade)
+-- Tabela de associação entre Tipo e LoginUsuario (1:N)
+CREATE TABLE tipo_login (
+    tipo_id INT,
+    login_id INT,
+    PRIMARY KEY (tipo_id, login_id),
+    FOREIGN KEY (tipo_id) REFERENCES tipo(id) ON DELETE CASCADE,
+    FOREIGN KEY (login_id) REFERENCES login_usuario(id) ON DELETE CASCADE
+);
+
+-- Tabela Status (sem descrição)
+CREATE TABLE status (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL
+);
+
+-- Inserção dos status
+INSERT INTO status (nome) VALUES
+('aguardando'),
+('em_andamento'),
+('resolvido'),
+('erro');
+
+-- Tabela Atividade
 CREATE TABLE atividade (
     id INT PRIMARY KEY AUTO_INCREMENT,
     descricao TEXT NOT NULL,
     demandante_id INT NOT NULL,
-    validade DATE NOT NULL, -- Campo para definir a validade da atividade
-    FOREIGN KEY (demandante_id) REFERENCES demandante(id)
+    validade DATE NOT NULL,
+    status_id INT,
+    FOREIGN KEY (demandante_id) REFERENCES demandante(id),
+    FOREIGN KEY (status_id) REFERENCES status(id)
 );
 
--- Tabela Responsavel
+-- Tabela Responsável
 CREATE TABLE responsavel (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL
 );
 
--- Tabela de relacionamento muitos-para-muitos entre Atividade e Responsavel
+-- Tabela de relacionamento muitos-para-muitos entre Atividade e Responsável
 CREATE TABLE atividade_responsavel (
     atividade_id INT,
     responsavel_id INT,
@@ -44,11 +72,3 @@ CREATE TABLE atividade_responsavel (
     FOREIGN KEY (responsavel_id) REFERENCES responsavel(id) ON DELETE CASCADE
 );
 
--- Tabela Tipo-Login (relação 1 para N)
-CREATE TABLE tipo_login (
-    tipo_id INT,
-    login_id INT,
-    PRIMARY KEY (tipo_id, login_id),
-    FOREIGN KEY (tipo_id) REFERENCES tipo(id) ON DELETE CASCADE,
-    FOREIGN KEY (login_id) REFERENCES login_usuario(id) ON DELETE CASCADE
-);

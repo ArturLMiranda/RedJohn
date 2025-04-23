@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Form, Row, Col } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
-import { EditarUsuario } from './utils/EditarUsuario';
-import { DeletarUsuario } from './utils/DeletarUsuario';
+import { EditarUsuario } from '../utils/Usuario/EditarUsuario';
+import { DeletarUsuario } from '../utils/Usuario/DeletarUsuario';
+
 
 const FormularioUsuario = () => {
     const [usuarioId, setUsuarioId] = useState(null); // seta quando for editar

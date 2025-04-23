@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Form, Row, Col } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
-import { CadastrarUsuario } from './utils/CadastrarUsuario';
+import { CadastrarUsuario } from '../utils/Usuario/CadastrarUsuario';
+
 
 const FormularioUsuarioNovo = ({ onClick, onClickDelete }) => {
     const [nome, setNome] = useState('');

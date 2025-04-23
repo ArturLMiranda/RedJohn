@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Row, Col, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
-const FormularioNomeConfig = ({ responsavel, onClickSalvar, onClickDelete }) => {
+const FomurarioNome = ({ responsavel, onClickSalvar, onClickDelete }) => {
     const [nome, setNome] = useState(responsavel?.nome || '');
 
     useEffect(() => {

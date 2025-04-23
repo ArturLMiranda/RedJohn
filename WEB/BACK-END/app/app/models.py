@@ -15,8 +15,8 @@ class Tipo(models.Model):
 
 
 class LoginUsuario(models.Model):
-    nome = models.CharField(max_length=255)
-    senha = models.CharField(max_length=64)  # SHA-256
+    nome = models.CharField(max_length=100)
+    senha = models.CharField(max_length=100)  # SHA-256
 
     def __str__(self):
         return self.nome

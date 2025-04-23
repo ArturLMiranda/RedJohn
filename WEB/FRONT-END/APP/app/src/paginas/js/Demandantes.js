@@ -14,7 +14,7 @@ const Demandante = () => {
     const [modalVisivel, setModalVisivel] = useState(false);
     const [modalVisivel2, setModalVisivel2] = useState(false);
     const [demandanteSelecionado, setDemandanteSelecionado] = useState(null);
-    const [demandantes, setDemandantes] = useState([]);
+    const [demandantes, setDemandantes] = useState([]); 
 
     // Função para carregar a lista de demandantes
     const carregarDemandantes = async () => {

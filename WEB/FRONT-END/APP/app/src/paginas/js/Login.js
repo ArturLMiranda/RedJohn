@@ -5,7 +5,8 @@ import '../css/BackCroud.css';
 import '../css/Login.css'; 
 import Botao from '../../componentes/js/Botao';
 import logoImg from '../../componentes/Img/logo1.png';
-import { autenticarUsuario } from '../../componentes/utils/login/autenticarUsuario ';
+import { autenticarUsuario } from '../../componentes/utils/login/autenticarUsuario';
+
 
 const Login = () => {
     const [nome, setNome] = useState('');
@@ -60,7 +61,7 @@ const Login = () => {
                                 />
                             </Form.Group>
 
-                            <Botao texto="Entrar" tipo="btn-entrar w-100" onClick={handleSubmit} />
+                            <Botao texto="Entrar" tipo="btn-entrar w-100" /> {/* Remove onClick aqui */}
                         </Form>
                     </Card.Body>
                 </Card>

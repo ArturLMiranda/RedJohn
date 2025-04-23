@@ -1,6 +1,8 @@
 # =========================================
 # IMPORTAÇÕES
 # =========================================
+import json
+import hashlib
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -216,3 +218,24 @@ def criar_demandante(request):
             serializer.save()
             return JsonResponse({"id": serializer.data['id'], "nome": serializer.data['nome']}, status=201)
         return JsonResponse(serializer.errors, status=400)
+@api_view(['PUT'])
+def editar_demandante(request, pk):
+    try:
+        demandante = Demandante.objects.get(pk=pk)
+    except Demandante.DoesNotExist:
+        return JsonResponse({"error": "Demandante não encontrado"}, status=404)
+
+    serializer = DemandanteSerializer(demandante, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse({"id": serializer.data['id'], "nome": serializer.data['nome']}, status=200)
+    return JsonResponse(serializer.errors, status=400)
+@api_view(['DELETE'])
+def deletar_demandante(request, pk):
+    try:
+        demandante = Demandante.objects.get(pk=pk)
+    except Demandante.DoesNotExist:
+        return JsonResponse({"error": "Demandante não encontrado"}, status=404)
+
+    demandante.delete()
+    return JsonResponse({"message": "Demandante deletado com sucesso"}, status=204)

@@ -2,15 +2,20 @@
 # IMPORTAÇÕES
 # =========================================
 import hashlib
-import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Atividade, LoginUsuario, Tipo, TipoLogin, Responsavel, Demandante
+from rest_framework import status
+
+from .models import (
+    Tipo, LoginUsuario, Demandante, Responsavel,
+    Status, Atividade, AtividadeResponsavel
+)
 from .serializers import (
-    AtividadeSerializer, LoginUsuarioSerializer, TipoLoginSerializer,
-    ResponsavelSerializer, DemandanteSerializer
+    TipoSerializer, LoginUsuarioSerializer, LoginUsuarioCreateSerializer,
+    DemandanteSerializer, ResponsavelSerializer,
+    StatusSerializer, AtividadeSerializer, AtividadeCreateUpdateSerializer
 )
 
 # =========================================
@@ -18,19 +23,19 @@ from .serializers import (
 # =========================================
 
 @csrf_exempt
+@api_view(['POST'])
 def login_view(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        nome = data.get('nome')
-        senha = hashlib.sha256(data.get('senha').encode()).hexdigest()
-        try:
-            usuario = LoginUsuario.objects.get(nome=nome, senha=senha)
-            tipo_login = TipoLogin.objects.get(loginusuario=usuario)
-            tipo = tipo_login.tipo.tipo
-            return JsonResponse({'status': 'success', 'usuario_id': usuario.id, 'tipo': tipo})
-        except LoginUsuario.DoesNotExist:
-            return JsonResponse({'status': 'error', 'mensagem': 'Usuário ou senha inválidos'})
-    return JsonResponse({'status': 'error', 'mensagem': 'Método não permitido'}, status=405)
+    data = request.data
+    nome = data.get('nome')
+    senha = data.get('senha')
+    senha_hash = hashlib.sha256(senha.encode()).hexdigest()
+
+    try:
+        usuario = LoginUsuario.objects.get(nome=nome, senha=senha_hash)
+        serializer = LoginUsuarioSerializer(usuario)
+        return Response(serializer.data)
+    except LoginUsuario.DoesNotExist:
+        return Response({'erro': 'Credenciais inválidas'}, status=401)
 
 # =========================================
 # CRUD ATIVIDADES
@@ -44,80 +49,84 @@ def listar_atividades(request):
 
 @api_view(['POST'])
 def criar_atividade(request):
-    serializer = AtividadeSerializer(data=request.data)
+    serializer = AtividadeCreateUpdateSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response({'status': 'success', 'atividade': serializer.data})
+        atividade = serializer.save()
+        return Response(AtividadeSerializer(atividade).data, status=201)
     return Response(serializer.errors, status=400)
 
 @api_view(['PUT'])
 def editar_atividade(request, id):
     try:
-        atividade = Atividade.objects.get(id=id)
+        atividade = Atividade.objects.get(pk=id)
     except Atividade.DoesNotExist:
-        return Response({'status': 'error', 'mensagem': 'Atividade não encontrada'}, status=404)
-    serializer = AtividadeSerializer(atividade, data=request.data)
+        return Response({'erro': 'Atividade não encontrada'}, status=404)
+
+    serializer = AtividadeCreateUpdateSerializer(atividade, data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response({'status': 'success', 'atividade': serializer.data})
+        atividade = serializer.save()
+        return Response(AtividadeSerializer(atividade).data)
     return Response(serializer.errors, status=400)
 
 @api_view(['DELETE'])
 def deletar_atividade(request, id):
     try:
-        atividade = Atividade.objects.get(id=id)
+        atividade = Atividade.objects.get(pk=id)
         atividade.delete()
-        return Response({'status': 'success'})
+        return Response(status=204)
     except Atividade.DoesNotExist:
-        return Response({'status': 'error', 'mensagem': 'Atividade não encontrada'}, status=404)
+        return Response({'erro': 'Atividade não encontrada'}, status=404)
 
 # =========================================
 # CRUD USUÁRIOS
 # =========================================
 
 @csrf_exempt
+@api_view(['POST'])
 def criar_usuario(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        data['senha'] = hashlib.sha256(data['senha'].encode()).hexdigest()
-        serializer = LoginUsuarioSerializer(data=data)
-        if serializer.is_valid():
-            usuario = serializer.save()
-            tipo = Tipo.objects.get(id=data['tipo'])
-            TipoLogin.objects.create(loginusuario=usuario, tipo=tipo)
-            return JsonResponse({'status': 'success', 'usuario': serializer.data})
-        return JsonResponse(serializer.errors, status=400, safe=False)
+    data = request.data.copy()
+    senha = data.get('senha')
+    data['senha'] = hashlib.sha256(senha.encode()).hexdigest()
+
+    serializer = LoginUsuarioCreateSerializer(data=data)
+    if serializer.is_valid():
+        usuario = serializer.save()
+        return Response(LoginUsuarioSerializer(usuario).data, status=201)
+    return Response(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['PUT'])
 def editar_usuario(request, usuario_id):
     try:
-        usuario = LoginUsuario.objects.get(id=usuario_id)
+        usuario = LoginUsuario.objects.get(pk=usuario_id)
     except LoginUsuario.DoesNotExist:
-        return JsonResponse({'status': 'error', 'mensagem': 'Usuário não encontrado'}, status=404)
+        return Response({'erro': 'Usuário não encontrado'}, status=404)
 
-    data = json.loads(request.body)
+    data = request.data.copy()
     if 'senha' in data:
         data['senha'] = hashlib.sha256(data['senha'].encode()).hexdigest()
-    serializer = LoginUsuarioSerializer(usuario, data=data, partial=True)
+
+    serializer = LoginUsuarioCreateSerializer(usuario, data=data)
     if serializer.is_valid():
-        serializer.save()
-        return JsonResponse({'status': 'success', 'usuario': serializer.data})
-    return JsonResponse(serializer.errors, status=400, safe=False)
+        usuario = serializer.save()
+        return Response(LoginUsuarioSerializer(usuario).data)
+    return Response(serializer.errors, status=400)
 
 @csrf_exempt
+@api_view(['DELETE'])
 def deletar_usuario(request, usuario_id):
     try:
-        usuario = LoginUsuario.objects.get(id=usuario_id)
-        TipoLogin.objects.filter(loginusuario=usuario).delete()
+        usuario = LoginUsuario.objects.get(pk=usuario_id)
         usuario.delete()
-        return JsonResponse({'status': 'success'})
+        return Response(status=204)
     except LoginUsuario.DoesNotExist:
-        return JsonResponse({'status': 'error', 'mensagem': 'Usuário não encontrado'}, status=404)
+        return Response({'erro': 'Usuário não encontrado'}, status=404)
 
+@api_view(['GET'])
 def listar_usuarios(request):
     usuarios = LoginUsuario.objects.all()
     serializer = LoginUsuarioSerializer(usuarios, many=True)
-    return JsonResponse(serializer.data, safe=False)
+    return Response(serializer.data)
 
 # =========================================
 # CRUD RESPONSÁVEIS
@@ -133,18 +142,18 @@ def listar_responsaveis(request):
 def criar_responsavel(request):
     serializer = ResponsavelSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response({'status': 'success', 'responsavel': serializer.data})
+        responsavel = serializer.save()
+        return Response(ResponsavelSerializer(responsavel).data, status=201)
     return Response(serializer.errors, status=400)
 
 @api_view(['DELETE'])
 def deletar_responsavel(request, id):
     try:
-        responsavel = Responsavel.objects.get(id=id)
+        responsavel = Responsavel.objects.get(pk=id)
         responsavel.delete()
-        return Response({'status': 'success'})
+        return Response(status=204)
     except Responsavel.DoesNotExist:
-        return Response({'status': 'error', 'mensagem': 'Responsável não encontrado'}, status=404)
+        return Response({'erro': 'Responsável não encontrado'}, status=404)
 
 # =========================================
 # CRUD DEMANDANTES
@@ -160,27 +169,28 @@ def listar_demandantes(request):
 def criar_demandante(request):
     serializer = DemandanteSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response({'status': 'success', 'demandante': serializer.data})
+        demandante = serializer.save()
+        return Response(DemandanteSerializer(demandante).data, status=201)
     return Response(serializer.errors, status=400)
 
 @api_view(['PUT'])
 def editar_demandante(request, pk):
     try:
-        demandante = Demandante.objects.get(id=pk)
+        demandante = Demandante.objects.get(pk=pk)
     except Demandante.DoesNotExist:
-        return Response({'status': 'error', 'mensagem': 'Demandante não encontrado'}, status=404)
+        return Response({'erro': 'Demandante não encontrado'}, status=404)
+
     serializer = DemandanteSerializer(demandante, data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response({'status': 'success', 'demandante': serializer.data})
+        demandante = serializer.save()
+        return Response(DemandanteSerializer(demandante).data)
     return Response(serializer.errors, status=400)
 
 @api_view(['DELETE'])
 def deletar_demandante(request, pk):
     try:
-        demandante = Demandante.objects.get(id=pk)
+        demandante = Demandante.objects.get(pk=pk)
         demandante.delete()
-        return Response({'status': 'success'})
+        return Response(status=204)
     except Demandante.DoesNotExist:
-        return Response({'status': 'error', 'mensagem': 'Demandante não encontrado'}, status=404)
+        return Response({'erro': 'Demandante não encontrado'}, status=404)

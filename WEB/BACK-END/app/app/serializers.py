@@ -1,67 +1,76 @@
 from rest_framework import serializers
 from .models import (
-    Demandante, Tipo, LoginUsuario, TipoLogin,
-    Status, Atividade, Responsavel, AtividadeResponsavel
+    Tipo, LoginUsuario, Demandante, Responsavel,
+    Status, Atividade, AtividadeResponsavel
 )
 
-
-class DemandanteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Demandante
-        fields = '__all__'
-
-
+# Serializador para o modelo Tipo
 class TipoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tipo
         fields = '__all__'
 
 
+# Serializador para o modelo LoginUsuario
 class LoginUsuarioSerializer(serializers.ModelSerializer):
+    tipo = TipoSerializer(read_only=True)
+
     class Meta:
         model = LoginUsuario
-        fields = '__all__'
+        fields = ['id', 'nome', 'senha', 'tipo']
 
 
-class TipoLoginSerializer(serializers.ModelSerializer):
-    tipo = TipoSerializer()
-    login = LoginUsuarioSerializer()
-
+# Serializador de criação para LoginUsuario
+class LoginUsuarioCreateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TipoLogin
-        fields = '__all__'
+        model = LoginUsuario
+        fields = ['id', 'nome', 'senha', 'tipo']
 
 
-class StatusSerializer(serializers.ModelSerializer):
+# Serializador para o modelo Demandante
+class DemandanteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Status
+        model = Demandante
         fields = '__all__'
 
 
+# Serializador para o modelo Responsavel
 class ResponsavelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Responsavel
         fields = '__all__'
 
 
-class AtividadeResponsavelSerializer(serializers.ModelSerializer):
-    atividade = serializers.PrimaryKeyRelatedField(queryset=Atividade.objects.all())
-    responsavel = ResponsavelSerializer()
+# Serializador para o modelo Status
+class StatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Status
+        fields = '__all__'
 
+
+# Serializador para o modelo AtividadeResponsavel
+class AtividadeResponsavelSerializer(serializers.ModelSerializer):
     class Meta:
         model = AtividadeResponsavel
         fields = '__all__'
 
 
+# Serializador para o modelo Atividade
 class AtividadeSerializer(serializers.ModelSerializer):
-    demandante = DemandanteSerializer()
-    status = StatusSerializer()
-    responsaveis = serializers.SerializerMethodField()
+    # O campo demandante será um objeto serializado de DemandanteSerializer
+    demandante = DemandanteSerializer(read_only=True)
+    # O campo status será um objeto serializado de StatusSerializer
+    status = StatusSerializer(read_only=True)
+    # O campo responsaveis será uma lista de objetos serializados de ResponsavelSerializer
+    responsaveis = ResponsavelSerializer(many=True, read_only=True)
 
     class Meta:
         model = Atividade
         fields = ['id', 'descricao', 'validade', 'demandante', 'status', 'responsaveis']
 
-    def get_responsaveis(self, obj):
-        responsaveis = Responsavel.objects.filter(atividaderesponsavel__atividade=obj)
-        return ResponsavelSerializer(responsaveis, many=True).data
+
+# Serializador de criação e atualização para o modelo Atividade
+class AtividadeCreateUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Atividade
+        fields = ['id', 'descricao', 'validade', 'demandante', 'status']

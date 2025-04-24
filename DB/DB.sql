@@ -14,9 +14,6 @@ CREATE TABLE tipo (
     nome VARCHAR(255) NOT NULL
 );
 
--- Inserção dos tipos de usuário
-INSERT INTO tipo (nome) VALUES ('admin'), ('user');
-
 -- Tabela LoginUsuario
 CREATE TABLE login_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -33,18 +30,12 @@ CREATE TABLE tipo_login (
     FOREIGN KEY (login_id) REFERENCES login_usuario(id) ON DELETE CASCADE
 );
 
--- Tabela Status (sem descrição)
+-- Tabela Status com coluna de cor
 CREATE TABLE status (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(50) NOT NULL
+    nome VARCHAR(50) NOT NULL,
+    cor VARCHAR(7) -- Códigos hexadecimais de cor (ex: #33A1FF)
 );
-
--- Inserção dos status
-INSERT INTO status (nome) VALUES
-('aguardando'),
-('em_andamento'),
-('resolvido'),
-('erro');
 
 -- Tabela Atividade
 CREATE TABLE atividade (
@@ -72,3 +63,12 @@ CREATE TABLE atividade_responsavel (
     FOREIGN KEY (responsavel_id) REFERENCES responsavel(id) ON DELETE CASCADE
 );
 
+-- Inserção dos tipos de usuário
+INSERT INTO tipo (nome) VALUES ('admin'), ('user');
+
+-- Inserção dos status com cores
+INSERT INTO status (nome, cor) VALUES
+('aguardando', '#33A1FF'),   -- Azul
+('em_andamento', '#FFCC00'), -- Amarelo
+('resolvido', '#33FF57'),    -- Verde
+('erro', '#FF3399');         -- Vermelho

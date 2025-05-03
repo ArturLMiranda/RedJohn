@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const CadastrarUsuario = async (usuario, limparFormulario) => {
     try {
-        const response = await axios.post('/api/usuarios/', usuario);
+        const response = await axios.post('/api/usuarios/criar/', usuario);
         console.log("Usuário cadastrado com sucesso:", response.data);
         if (limparFormulario) limparFormulario(); // Limpar o formulário após cadastro
     } catch (error) {

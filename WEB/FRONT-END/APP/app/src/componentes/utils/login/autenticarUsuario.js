@@ -12,7 +12,7 @@ export const autenticarUsuario = async (nome, senha) => {
             return true;
         } else {
             const data = await response.json();
-            console.warn(data.mensagem);
+            console.warn(data.erro);
             return false;
         }
     } catch (error) {

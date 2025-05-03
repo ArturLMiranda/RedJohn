@@ -174,9 +174,9 @@ def criar_demandante(request):
     return Response(serializer.errors, status=400)
 
 @api_view(['PUT'])
-def editar_demandante(request, pk):
+def editar_demandante(request, id):
     try:
-        demandante = Demandante.objects.get(pk=pk)
+        demandante = Demandante.objects.get(pk=id)
     except Demandante.DoesNotExist:
         return Response({'erro': 'Demandante não encontrado'}, status=404)
 
@@ -187,10 +187,20 @@ def editar_demandante(request, pk):
     return Response(serializer.errors, status=400)
 
 @api_view(['DELETE'])
-def deletar_demandante(request, pk):
+def deletar_demandante(request, id):
     try:
-        demandante = Demandante.objects.get(pk=pk)
+        demandante = Demandante.objects.get(pk=id)
         demandante.delete()
         return Response(status=204)
     except Demandante.DoesNotExist:
         return Response({'erro': 'Demandante não encontrado'}, status=404)
+    
+# =========================================
+# LISTAR TIPOS
+# =========================================
+    
+@api_view(['GET'])
+def listar_tipos(request):
+    tipos = Tipo.objects.all()
+    serializer = TipoSerializer(tipos, many=True)
+    return Response(serializer.data)

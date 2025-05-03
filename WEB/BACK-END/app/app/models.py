@@ -20,18 +20,10 @@ class Tipo(models.Model):
 class LoginUsuario(models.Model):
     nome = models.CharField(max_length=255)
     senha = models.CharField(max_length=64)  # SHA-256
+    tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nome
-
-
-# Classe para TipoLogin
-class TipoLogin(models.Model):
-    tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE)
-    login = models.ForeignKey(LoginUsuario, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ('tipo', 'login')
 
 
 # Classe para Status

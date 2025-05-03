@@ -4,18 +4,18 @@ import '../css/NovaDemanda.css';
 import Botao from './Botao';
 import { CadastrarUsuario } from '../utils/Usuario/CadastrarUsuario';
 
-const FormularioUsuarioNovo = () => {
+const FormularioUsuarioNovo = ({ onClick, onClickDelete }) => {
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
-    const [tipoId, setTipoId] = useState('');
+    const [tipo, setTipo] = useState('');
     const [tipos, setTipos] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/tipos/")
-            .then((res) => res.json())
-            .then((data) => setTipos(data))
-            .catch((err) => console.error("Erro ao carregar tipos:", err));
+        fetch('/api/tipos/')  // Certifique-se de que esta rota está correta no backend
+            .then(res => res.json())
+            .then(data => setTipos(data))
+            .catch(err => console.error("Erro ao carregar tipos:", err));
     }, []);
 
     const handleSalvar = () => {
@@ -24,12 +24,13 @@ const FormularioUsuarioNovo = () => {
             return;
         }
 
-        const novoUsuario = { nome, senha, tipo: tipoId };
+        const novoUsuario = { nome, senha, tipo };
         CadastrarUsuario(novoUsuario, () => {
+            alert("Usuário cadastrado com sucesso!");
             setNome('');
             setSenha('');
             setConfirmarSenha('');
-            setTipoId('');
+            setTipo('');
         });
     };
 
@@ -38,27 +39,25 @@ const FormularioUsuarioNovo = () => {
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={3} className="obrigatorio" style={{ marginTop: "4%" }}>Nome*</Form.Label>
                 <Col sm={9}>
-                    <Form.Control type="text" value={nome} onChange={(e) => setNome(e.target.value)} required placeholder="Digite o nome" />
+                    <Form.Control type="text" value={nome} onChange={(e) => setNome(e.target.value)} required placeholder="Digite o nome" style={{ marginTop: "4%" }}/>
                 </Col>
 
                 <Form.Label column sm={3} className="obrigatorio" style={{ marginTop: "2%" }}>Senha*</Form.Label>
                 <Col sm={9}>
-                    <Form.Control type="password" value={senha} onChange={(e) => setSenha(e.target.value)} required placeholder="Digite a senha" />
+                    <Form.Control type="password" value={senha} onChange={(e) => setSenha(e.target.value)} required placeholder="Digite a senha" style={{ marginTop: "2%" }} />
                 </Col>
 
                 <Form.Label column sm={3} className="obrigatorio" style={{ marginTop: "2%" }}>Confirma a Senha*</Form.Label>
                 <Col sm={9}>
-                    <Form.Control type="password" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} required placeholder="Confirme a senha" />
+                    <Form.Control type="password" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)} required placeholder="Confirme a senha" style={{ marginTop: "2%" }} />
                 </Col>
 
                 <Form.Label column sm={3} style={{ marginTop: "2%" }}>Perfil</Form.Label>
                 <Col sm={9}>
-                    <Form.Select value={tipoId} onChange={(e) => setTipoId(e.target.value)}>
+                    <Form.Select value={tipo} onChange={(e) => setTipo(e.target.value)} style={{ marginTop: "2%" }}>
                         <option value="">Selecione um perfil</option>
                         {tipos.map((tipo) => (
-                            <option key={tipo.id} value={tipo.id}>
-                                {tipo.nome}
-                            </option>
+                            <option key={tipo.id} value={tipo.id}>{tipo.nome}</option>
                         ))}
                     </Form.Select>
                 </Col>

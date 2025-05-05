@@ -18,17 +18,11 @@ CREATE TABLE tipo (
 CREATE TABLE login_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
-    senha CHAR(64) NOT NULL -- SHA-256 gera um hash de 64 caracteres
+    senha CHAR(64) NOT NULL, -- SHA-256 gera um hash de 64 caracteres
+    tipo INT NOT NULL,
+    FOREIGN KEY (tipo) REFERENCES tipo(id) ON DELETE CASCADE
 );
 
--- Tabela de associação entre Tipo e LoginUsuario (1:N)
-CREATE TABLE tipo_login (
-    tipo_id INT,
-    login_id INT,
-    PRIMARY KEY (tipo_id, login_id),
-    FOREIGN KEY (tipo_id) REFERENCES tipo(id) ON DELETE CASCADE,
-    FOREIGN KEY (login_id) REFERENCES login_usuario(id) ON DELETE CASCADE
-);
 
 -- Tabela Status com coluna de cor
 CREATE TABLE status (
@@ -64,7 +58,10 @@ CREATE TABLE atividade_responsavel (
 );
 
 -- Inserção dos tipos de usuário
-INSERT INTO tipo (nome) VALUES ('admin'), ('user');
+INSERT INTO tipo (nome) VALUES
+('Admin'),
+('User'),
+('Guest');
 
 -- Inserção dos status com cores
 INSERT INTO status (nome, cor) VALUES

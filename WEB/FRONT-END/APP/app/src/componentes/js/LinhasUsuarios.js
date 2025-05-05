@@ -12,10 +12,10 @@ const LinhasUsuarios = ({ lista = [], onClick }) => {
                             <span>{usuario.nome}</span>
                         </Col>
                         <Col xs={5}>
-                            <span>{usuario.tipo}</span>
+                            <span>{usuario.tipo?.nome || 'Sem tipo'}</span>
                         </Col>
                         <Col xs={2} className="text-end">
-                            <BotaoEngrenagem onClick={onClick} />
+                            <BotaoEngrenagem onClick={() => onClick(usuario)} />
                         </Col>
                     </Row>
                 </Card>
@@ -24,4 +24,4 @@ const LinhasUsuarios = ({ lista = [], onClick }) => {
     );
 };
 
-export default LinhasUsuarios; // ✅ Certifique-se de que está exportando corretamente
+export default LinhasUsuarios;

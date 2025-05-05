@@ -4,7 +4,7 @@ import '../css/NovaDemanda.css';
 import Botao from './Botao';
 import { CadastrarUsuario } from '../utils/Usuario/CadastrarUsuario';
 
-const FormularioUsuarioNovo = ({ onClick, onClickDelete }) => {
+const FormularioUsuarioNovo = ({ onUpdate }) => {
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
@@ -12,7 +12,7 @@ const FormularioUsuarioNovo = ({ onClick, onClickDelete }) => {
     const [tipos, setTipos] = useState([]);
 
     useEffect(() => {
-        fetch('/api/tipos/')  // Certifique-se de que esta rota está correta no backend
+        fetch('http://localhost:8000/api/tipos/')
             .then(res => res.json())
             .then(data => setTipos(data))
             .catch(err => console.error("Erro ao carregar tipos:", err));
@@ -26,11 +26,12 @@ const FormularioUsuarioNovo = ({ onClick, onClickDelete }) => {
 
         const novoUsuario = { nome, senha, tipo };
         CadastrarUsuario(novoUsuario, () => {
-            alert("Usuário cadastrado com sucesso!");
+            // ✅ remove o alert
             setNome('');
             setSenha('');
             setConfirmarSenha('');
             setTipo('');
+            if (onUpdate) onUpdate(); // ✅ chama a função do pai para atualizar lista e fechar modal
         });
     };
 

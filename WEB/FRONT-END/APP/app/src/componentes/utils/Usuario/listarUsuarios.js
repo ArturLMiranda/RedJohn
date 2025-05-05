@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const listarUsuarios = async () => {
     try {
-        const response = await axios.get('/api/usuarios/');
+        const response = await axios.get('http://localhost:8000/api/usuarios/');
         return response.data;
     } catch (error) {
         console.error('Erro ao listar usuários:', error);

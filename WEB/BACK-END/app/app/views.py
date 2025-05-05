@@ -85,13 +85,19 @@ def deletar_atividade(request, id):
 @api_view(['POST'])
 def criar_usuario(request):
     data = request.data.copy()
+    
+    print("Dados recebidos na requisição:", data)  # <-- Aqui você vê o que foi enviado
+
     senha = data.get('senha')
     data['senha'] = hashlib.sha256(senha.encode()).hexdigest()
 
     serializer = LoginUsuarioCreateSerializer(data=data)
     if serializer.is_valid():
         usuario = serializer.save()
+        print("Usuário criado com sucesso:", usuario)
         return Response(LoginUsuarioSerializer(usuario).data, status=201)
+    
+    print("Erros de validação:", serializer.errors)  # <-- Se der erro, você vê o motivo
     return Response(serializer.errors, status=400)
 
 @csrf_exempt

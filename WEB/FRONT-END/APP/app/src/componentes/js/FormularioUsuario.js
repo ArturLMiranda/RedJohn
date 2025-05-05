@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { Form, Row, Col } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
 import { EditarUsuario } from '../utils/Usuario/EditarUsuario';
 import { DeletarUsuario } from '../utils/Usuario/DeletarUsuario';
 
-const FormularioUsuario = () => {
+const FormularioUsuario = ({ usuario, onUpdate }) => {
     const [usuarioId, setUsuarioId] = useState(null);
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
@@ -14,11 +14,21 @@ const FormularioUsuario = () => {
     const [tipos, setTipos] = useState([]);
 
     useEffect(() => {
-        fetch('/api/tipos/')  // Ajuste conforme necessário
+        fetch('http://localhost:8000/api/tipos/')
             .then(res => res.json())
             .then(data => setTipos(data))
             .catch(err => console.error("Erro ao carregar tipos:", err));
     }, []);
+
+    useEffect(() => {
+        if (usuario) {
+            setUsuarioId(usuario.id);
+            setNome(usuario.nome || '');
+            setSenha('');
+            setConfirmarSenha('');
+            setTipo(usuario.tipo?.id || usuario.tipo || '');
+        }
+    }, [usuario]);
 
     const limparCampos = () => {
         setNome('');
@@ -40,17 +50,18 @@ const FormularioUsuario = () => {
             confirmar_senha: confirmarSenha,
             tipo
         };
+
         EditarUsuario(usuarioId, dados, () => {
-            alert("Usuário editado com sucesso!");
             limparCampos();
+            if (onUpdate) onUpdate(); // ✅ Atualiza lista e fecha modal
         });
     };
 
     const handleDeletarUsuario = () => {
         if (usuarioId) {
             DeletarUsuario(usuarioId, () => {
-                alert("Usuário deletado com sucesso!");
                 limparCampos();
+                if (onUpdate) onUpdate(); // ✅ Atualiza lista e fecha modal
             });
         } else {
             console.warn('Nenhum usuário selecionado para deletar.');

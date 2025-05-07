@@ -1,5 +1,8 @@
 -- Criação e uso do banco de dados
 CREATE DATABASE IF NOT EXISTS sistema_atividades;
+CREATE USER 'root'@'localhost' IDENTIFIED BY 'Onex@2024';
+GRANT ALL PRIVILEGES ON nome_do_banco.* TO 'root'@'localhost';
+FLUSH PRIVILEGES;
 USE sistema_atividades;
 
 -- Tabela Demandante

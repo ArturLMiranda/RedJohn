@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { Form, Button, Row, Col, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Form, Row, Col } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
-const FomurarioNome = ({ responsavel, onClickSalvar, onClickDelete }) => {
-    const [nome, setNome] = useState(responsavel?.nome || '');
+
+const FormularioNome = ({ entidade, onClickSalvar, onClickDelete }) => {
+    const [nome, setNome] = useState(entidade?.nome || '');
 
     useEffect(() => {
-        setNome(responsavel?.nome || '');
-    }, [responsavel]);
+        setNome(entidade?.nome || '');
+    }, [entidade]);
 
     return (
         <div className="menu-suspenso p-3">
@@ -26,10 +27,22 @@ const FomurarioNome = ({ responsavel, onClickSalvar, onClickDelete }) => {
 
             <div className="d-flex gap-2 justify-content-end">
                 <Botao texto="Excluir" onClick={onClickDelete} tipo="btn-delete" />
-                <Botao texto="Salvar" onClick={() => onClickSalvar(nome)} tipo="btn-salva" />
+                <Botao
+                    texto="Salvar"
+                    onClick={() => {
+                        const nomeValido = nome.trim();
+                        if (nomeValido === '') {
+                            alert('O nome não pode estar vazio.');
+                            return;
+                        }
+                        onClickSalvar(nomeValido);
+                    }}
+                    tipo="btn-salva"
+                    disabled={nome.trim() === ''}
+                />
             </div>
         </div>
     );
 };
 
-export default FomurarioNome;
+export default FormularioNome;

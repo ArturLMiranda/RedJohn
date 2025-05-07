@@ -5,7 +5,7 @@ class Demandante(models.Model):
     nome = models.CharField(max_length=255)
 
     class Meta:
-        db_table = 'demantande'  # Garante que ele acessa a tabela correta
+        db_table = 'demandante'  # Garante que ele acessa a tabela correta
         managed = False    # Não deixa o Django tentar gerenciar (criar/modificar)
 
     def __str__(self):
@@ -51,21 +51,6 @@ class Status(models.Model):
         return self.nome
 
 
-# Classe para Atividade
-class Atividade(models.Model):
-    descricao = models.TextField()
-    demandante = models.ForeignKey(Demandante, on_delete=models.CASCADE)
-    validade = models.DateField()
-    status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
-
-    class Meta:
-        db_table = 'atividade'  # Garante que ele acessa a tabela correta
-        managed = False    # Não deixa o Django tentar gerenciar (criar/modificar)
-
-    def __str__(self):
-        return f'{self.descricao[:30]}...'
-
-
 # Classe para Responsavel
 class Responsavel(models.Model):
     nome = models.CharField(max_length=255)
@@ -77,6 +62,28 @@ class Responsavel(models.Model):
     def __str__(self):
         return self.nome
 
+# Classe para Atividade
+class Atividade(models.Model):
+    titulo = models.CharField(max_length=255)
+    descricao = models.TextField()
+    demandante = models.ForeignKey(Demandante, on_delete=models.CASCADE)
+    validade = models.DateField()
+    status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
+    responsaveis = models.ManyToManyField(
+        Responsavel,
+        through='AtividadeResponsavel',
+        related_name='atividades',
+        blank=True
+    )
+
+    class Meta:
+        db_table = 'atividade'
+        managed = False
+
+    def __str__(self):
+        return f'{self.descricao[:30]}...'
+
+
 
 # Classe para AtividadeResponsavel
 class AtividadeResponsavel(models.Model):
@@ -86,6 +93,4 @@ class AtividadeResponsavel(models.Model):
     class Meta:
         db_table = 'atividade_responsavel'  # Garante que ele acessa a tabela correta
         managed = False    # Não deixa o Django tentar gerenciar (criar/modificar)
-
-    class Meta:
         unique_together = ('atividade', 'responsavel')

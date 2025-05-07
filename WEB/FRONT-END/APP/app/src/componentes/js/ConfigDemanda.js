@@ -1,39 +1,89 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
-import { DeletarAtividade } from '../utils/home/DeletarAtividade';  // Caminho correto para o arquivo
-import { EditarAtividade } from '../utils/home/EditarAtividade';    // Novo import para edição
+import { DeletarAtividade } from '../utils/home/DeletarAtividade';
+import { EditarAtividade } from '../utils/home/EditarAtividade';
 
-const ConfigDemanda = () => {
-    const [atividadeId, setAtividadeId] = useState(null); // ID da atividade
-    const [status, setStatus] = useState('Aguardando');
-    const [nome, setNome] = useState('');
+const fetchDemandantes = async () => {
+    const response = await fetch('http://localhost:8000/api/demandantes/');
+    return await response.json();
+};
+
+const fetchResponsaveis = async () => {
+    const response = await fetch('http://localhost:8000/api/responsaveis/');
+    return await response.json();
+};
+
+const fetchStatus = async () => {
+    const response = await fetch('http://localhost:8000/api/status/');
+    return await response.json();
+};
+
+const ConfigDemanda = ({ demanda, onAtualizarAtividades, onFechar }) => {
+    const [titulo, setTitulo] = useState('');
+    const [status, setStatus] = useState('');
     const [demandante, setDemandante] = useState('');
-    const [responsavel, setResponsavel] = useState('');
+    const [responsaveis, setResponsaveis] = useState([]);
     const [descricao, setDescricao] = useState('');
-    const [dataVencimento, setDataVencimento] = useState('');
+    const [validade, setValidade] = useState('');
+    const [demandantes, setDemandantes] = useState([]);
+    const [todosResponsaveis, setTodosResponsaveis] = useState([]);
+    const [statuses, setStatuses] = useState([]);
 
-    const handleDelete = () => {
-        DeletarAtividade(atividadeId, setAtividadeId);
+    useEffect(() => {
+        const carregarDados = async () => {
+            setDemandantes(await fetchDemandantes());
+            setTodosResponsaveis(await fetchResponsaveis());
+            setStatuses(await fetchStatus());
+        };
+        carregarDados();
+    }, []);
+
+    useEffect(() => {
+        if (demanda) {
+            setTitulo(demanda.titulo || '');
+            setStatus(demanda.status || '');
+            setDemandante(demanda.demandante || '');
+            setResponsaveis(demanda.responsaveis || []);
+            setDescricao(demanda.descricao || '');
+            setValidade(demanda.validade ? demanda.validade.substring(0, 10) : '');
+        }
+    }, [demanda]);
+
+    const handleResponsavelChange = (e) => {
+        const selected = Array.from(e.target.selectedOptions, option => option.value);
+        setResponsaveis(selected);
     };
 
-    const handleEdit = () => {
-        EditarAtividade(atividadeId, nome, status, demandante, responsavel, descricao, dataVencimento);
+    const handleDelete = async () => {
+        if (demanda && demanda.id) {
+            await DeletarAtividade(demanda.id);
+            onAtualizarAtividades();
+            onFechar();
+        }
+    };
+
+    const handleEdit = async () => {
+        if (demanda && demanda.id) {
+            await EditarAtividade(demanda.id, titulo, descricao, demandante, responsaveis, validade, status);
+            onAtualizarAtividades();
+            onFechar();
+        }
     };
 
     return (
         <div className="menu-suspenso p-3">
-            {/* Nome */}
+            {/* Título */}
             <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3} className="obrigatorio">Nome*</Form.Label>
+                <Form.Label column sm={3} className="obrigatorio">Título*</Form.Label>
                 <Col sm={9}>
                     <Form.Control
                         type="text"
                         required
-                        value={nome}
-                        onChange={(e) => setNome(e.target.value)}
-                        placeholder="Digite o nome"
+                        value={titulo}
+                        onChange={(e) => setTitulo(e.target.value)}
+                        placeholder="Digite o título"
                     />
                 </Col>
             </Form.Group>
@@ -43,10 +93,23 @@ const ConfigDemanda = () => {
                 <Form.Label column sm={3}>Status:</Form.Label>
                 <Col sm={9}>
                     <ToggleButtonGroup type="radio" name="status" value={status} onChange={setStatus}>
-                        <ToggleButton id="aguardando" value="Aguardando" variant={status === 'Aguardando' ? 'primary' : 'dark'}>Aguardando</ToggleButton>
-                        <ToggleButton id="andamento" value="Em andamento" variant={status === 'Em andamento' ? 'warning' : 'dark'}>Em andamento</ToggleButton>
-                        <ToggleButton id="resolvido" value="Resolvido" variant={status === 'Resolvido' ? 'success' : 'dark'}>Resolvido</ToggleButton>
-                        <ToggleButton id="erro" value="Erro" variant={status === 'Erro' ? 'danger' : 'dark'}>Erro</ToggleButton>
+                        {statuses.length > 0 ? (
+                            statuses.map((item) => (
+                                <ToggleButton
+                                    key={item.id}
+                                    id={`status-${item.id}`}
+                                    value={item.id}
+                                    style={{
+                                        backgroundColor: status === item.id ? item.cor : '#6c757d',
+                                        color: 'white',
+                                    }}
+                                >
+                                    {item.nome}
+                                </ToggleButton>
+                            ))
+                        ) : (
+                            <div>Carregando status...</div>
+                        )}
                     </ToggleButtonGroup>
                 </Col>
             </Form.Group>
@@ -56,26 +119,34 @@ const ConfigDemanda = () => {
                 <Form.Label column sm={3} className="obrigatorio">Demandante*</Form.Label>
                 <Col sm={9}>
                     <Form.Control
-                        type="text"
+                        as="select"
                         required
                         value={demandante}
                         onChange={(e) => setDemandante(e.target.value)}
-                        placeholder="Digite o demandante"
-                    />
+                    >
+                        <option value="">Selecione um demandante</option>
+                        {demandantes.map((item) => (
+                            <option key={item.id} value={item.id}>{item.nome}</option>
+                        ))}
+                    </Form.Control>
                 </Col>
             </Form.Group>
 
-            {/* Responsável */}
+            {/* Responsáveis */}
             <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3} className="obrigatorio">Responsável*</Form.Label>
+                <Form.Label column sm={3} className="obrigatorio">Responsáveis*</Form.Label>
                 <Col sm={9}>
                     <Form.Control
-                        type="text"
+                        as="select"
+                        multiple
                         required
-                        value={responsavel}
-                        onChange={(e) => setResponsavel(e.target.value)}
-                        placeholder="Digite o responsável"
-                    />
+                        value={responsaveis}
+                        onChange={handleResponsavelChange}
+                    >
+                        {todosResponsaveis.map((item) => (
+                            <option key={item.id} value={item.id}>{item.nome}</option>
+                        ))}
+                    </Form.Control>
                 </Col>
             </Form.Group>
 
@@ -93,15 +164,15 @@ const ConfigDemanda = () => {
                 </Col>
             </Form.Group>
 
-            {/* Data de vencimento */}
+            {/* Validade */}
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={3}>Data de vencimento:</Form.Label>
                 <Col sm={9}>
                     <Form.Control
                         type="date"
                         required
-                        value={dataVencimento}
-                        onChange={(e) => setDataVencimento(e.target.value)}
+                        value={validade}
+                        onChange={(e) => setValidade(e.target.value)}
                     />
                 </Col>
             </Form.Group>

@@ -16,49 +16,44 @@ const Demandante = () => {
     const [demandanteSelecionado, setDemandanteSelecionado] = useState(null);
     const [demandantes, setDemandantes] = useState([]); 
 
-    // Função para carregar a lista de demandantes
     const carregarDemandantes = async () => {
         const dados = await buscarDemandantes();
         setDemandantes(dados);
     };
 
-    // Função para deletar um demandante
     const handleDeletarDemandante = async () => {
         if (demandanteSelecionado && window.confirm("Deseja realmente excluir este demandante?")) {
             try {
                 await deletarDemandante(demandanteSelecionado.id);
                 setModalVisivel(false);
-                carregarDemandantes(); // Atualiza a lista após exclusão
+                carregarDemandantes();
             } catch (error) {
                 console.error('Erro ao deletar demandante:', error);
             }
         }
     };
 
-    // Função para editar um demandante
     const handleEditarDemandante = async (nome) => {
         if (!demandanteSelecionado) return;
         try {
             await editarDemandante(demandanteSelecionado.id, nome);
             setModalVisivel(false);
-            carregarDemandantes(); // Atualiza a lista após edição
+            carregarDemandantes();
         } catch (error) {
             console.error('Erro ao editar demandante:', error);
         }
     };
 
-    // Função para criar um novo demandante
     const handleCriarDemandante = async (nome) => {
         try {
             await criarDemandante(nome);
             setModalVisivel2(false);
-            carregarDemandantes(); // Atualiza a lista após criação
+            carregarDemandantes();
         } catch (error) {
             console.error('Erro ao criar demandante:', error);
         }
     };
 
-    // Carregar demandantes ao montar o componente
     useEffect(() => {
         carregarDemandantes();
     }, []);
@@ -72,18 +67,18 @@ const Demandante = () => {
                 }} />
             </Telabtn>
 
-            {/* Modal de Configuração do Nome do Demandante */}
-            <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)} titulo={"Configuração Demandante"}>
-                <FormularioNomeConfig 
-                    demandante={demandanteSelecionado} 
-                    onClickDelete={handleDeletarDemandante} 
-                    onClickSalvar={handleEditarDemandante} 
+            {/* Modal de Edição */}
+            <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)} titulo="Editar Demandante">
+                <FormularioNome
+                    entidade={demandanteSelecionado}
+                    onClickSalvar={handleEditarDemandante}
+                    onClickDelete={handleDeletarDemandante}
                 />
             </Modalp>
 
-            {/* Modal de Cadastro de Novo Demandante */}
-            <Modalp show={modalVisivel2} handleClose={() => setModalVisivel2(false)} titulo={"Novo Demandante"}>
-                <FormularioNome onClick={handleCriarDemandante} />
+            {/* Modal de Criação */}
+            <Modalp show={modalVisivel2} handleClose={() => setModalVisivel2(false)} titulo="Novo Demandante">
+                <FormularioNomeConfig onClickSalvar={handleCriarDemandante} />
             </Modalp>
         </>
     );

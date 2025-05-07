@@ -3,19 +3,19 @@ CREATE DATABASE IF NOT EXISTS sistema_atividades;
 USE sistema_atividades;
 
 -- Tabela Demandante
-CREATE TABLE demandante (
+CREATE TABLE IF NOT EXISTS demandante (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL
 );
 
 -- Tabela Tipo (tipo de usuário)
-CREATE TABLE tipo (
+CREATE TABLE IF NOT EXISTS tipo (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL
 );
 
 -- Tabela LoginUsuario
-CREATE TABLE login_usuario (
+CREATE TABLE IF NOT EXISTS login_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     senha CHAR(64) NOT NULL, -- SHA-256 gera um hash de 64 caracteres
@@ -23,33 +23,34 @@ CREATE TABLE login_usuario (
     FOREIGN KEY (tipo) REFERENCES tipo(id) ON DELETE CASCADE
 );
 
-
 -- Tabela Status com coluna de cor
-CREATE TABLE status (
+CREATE TABLE IF NOT EXISTS status (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(50) NOT NULL,
     cor VARCHAR(7) -- Códigos hexadecimais de cor (ex: #33A1FF)
 );
 
--- Tabela Atividade
-CREATE TABLE atividade (
+-- Tabela Responsável
+CREATE TABLE IF NOT EXISTS responsavel (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL
+);
+
+-- Tabela Atividade
+CREATE TABLE IF NOT EXISTS atividade (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(255) NOT NULL,
     descricao TEXT NOT NULL,
     demandante_id INT NOT NULL,
     validade DATE NOT NULL,
     status_id INT,
     FOREIGN KEY (demandante_id) REFERENCES demandante(id),
     FOREIGN KEY (status_id) REFERENCES status(id)
-);
-
--- Tabela Responsável
-CREATE TABLE responsavel (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(255) NOT NULL
+    -- responsavel_id REMOVIDO (era incorreto com M2M)
 );
 
 -- Tabela de relacionamento muitos-para-muitos entre Atividade e Responsável
-CREATE TABLE atividade_responsavel (
+CREATE TABLE IF NOT EXISTS atividade_responsavel (
     atividade_id INT,
     responsavel_id INT,
     PRIMARY KEY (atividade_id, responsavel_id),
@@ -63,9 +64,13 @@ INSERT INTO tipo (nome) VALUES
 ('User'),
 ('Guest');
 
+-- Inserção do admin
+INSERT INTO login_usuario (nome, senha, tipo)
+VALUES ('Admin', SHA2('admin', 256), 1);
+
 -- Inserção dos status com cores
 INSERT INTO status (nome, cor) VALUES
-('aguardando', '#33A1FF'),   -- Azul
-('em_andamento', '#FFCC00'), -- Amarelo
-('resolvido', '#33FF57'),    -- Verde
-('erro', '#FF3399');         -- Vermelho
+('Aguardando', '#33A1FF'),   -- Azul
+('Em andamento', '#FFCC00'), -- Amarelo
+('Resolvido', '#33FF57'),    -- Verde
+('Erro', '#FF3399');         -- Vermelho

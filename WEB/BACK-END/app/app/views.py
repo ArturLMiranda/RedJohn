@@ -161,6 +161,20 @@ def deletar_responsavel(request, id):
     except Responsavel.DoesNotExist:
         return Response({'erro': 'Responsável não encontrado'}, status=404)
 
+@api_view(['PUT'])
+def editar_responsavel(request, id):
+    try:
+        responsavel = Responsavel.objects.get(pk=id)
+    except Responsavel.DoesNotExist:
+        return Response({'erro': 'Responsável não encontrado'}, status=404)
+
+    serializer = ResponsavelSerializer(responsavel, data=request.data)
+    if serializer.is_valid():
+        responsavel = serializer.save()
+        return Response(ResponsavelSerializer(responsavel).data)
+    return Response(serializer.errors, status=400)
+
+
 # =========================================
 # CRUD DEMANDANTES
 # =========================================
@@ -209,4 +223,15 @@ def deletar_demandante(request, id):
 def listar_tipos(request):
     tipos = Tipo.objects.all()
     serializer = TipoSerializer(tipos, many=True)
+    return Response(serializer.data)
+
+
+# =========================================
+# LISTAR STATUS
+# =========================================
+
+@api_view(['GET'])
+def listar_status(request):
+    status = Status.objects.all()
+    serializer = StatusSerializer(status, many=True)
     return Response(serializer.data)

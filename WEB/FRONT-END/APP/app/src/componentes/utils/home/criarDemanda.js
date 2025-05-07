@@ -1,19 +1,12 @@
-// src/api/criarDemanda.js
+import axios from 'axios';
 
 const criarDemanda = async (novaDemanda) => {
     try {
-        const response = await fetch("http://localhost:8000/api/atividades/", {
-            method: "POST",
+        const response = await axios.post("http://localhost:8000/api/atividades/criar/", novaDemanda, {
             headers: {
                 "Content-Type": "application/json",
-            },
-            body: JSON.stringify(novaDemanda),
+            }
         });
-
-        if (!response.ok) {
-            const erro = await response.json();
-            throw new Error(erro?.mensagem || "Erro ao criar demanda.");
-        }
 
         return true;
     } catch (erro) {

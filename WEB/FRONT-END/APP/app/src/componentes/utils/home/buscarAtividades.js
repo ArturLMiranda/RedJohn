@@ -1,18 +1,19 @@
-// src/api/buscarAtividades.js
+import axios from 'axios';
 
 const buscarAtividades = async () => {
     try {
-        const response = await fetch("http://localhost:8000/api/atividades/");
-        if (!response.ok) throw new Error("Erro ao buscar atividades");
+        const response = await axios.get("http://localhost:8000/api/atividades/");
+        if (!response.data) throw new Error("Erro ao buscar atividades");
 
-        const dados = await response.json();
-
-        const atividadesFormatadas = dados.map((item) => ({
-            titulo: item.descricao,
+        const atividadesFormatadas = response.data.map((item) => ({
+            id: item.id,
+            titulo: item.titulo,  // Corrigido: usar 'titulo' e não mais 'descricao'
             demandante: item.demandante,
-            responsavel: item.responsaveis.join(', '),
-            descricao: "Detalhes...", // ajuste conforme necessário
-            cor: item.cor
+            responsaveis: item.responsaveis,
+            descricao: item.descricao || "Sem detalhes",
+            cor: item.cor,
+            status: item.status,
+            validade: item.validade ? new Date(item.validade).toISOString() : null,
         }));
 
         return atividadesFormatadas;

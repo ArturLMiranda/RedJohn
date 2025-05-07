@@ -17,7 +17,7 @@ const Login = () => {
         e.preventDefault();
         const sucesso = await autenticarUsuario(nome, senha);
         if (sucesso) {
-            navigate("/dashboard"); // ou outra rota
+            navigate("/home"); // ou outra rota
         } else {
             alert("Usuário ou senha inválidos.");
         }

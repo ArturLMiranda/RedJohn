@@ -57,20 +57,42 @@ class AtividadeResponsavelSerializer(serializers.ModelSerializer):
 
 # Serializador para o modelo Atividade
 class AtividadeSerializer(serializers.ModelSerializer):
-    # O campo demandante será um objeto serializado de DemandanteSerializer
     demandante = DemandanteSerializer(read_only=True)
-    # O campo status será um objeto serializado de StatusSerializer
     status = StatusSerializer(read_only=True)
-    # O campo responsaveis será uma lista de objetos serializados de ResponsavelSerializer
     responsaveis = ResponsavelSerializer(many=True, read_only=True)
 
     class Meta:
         model = Atividade
-        fields = ['id', 'descricao', 'validade', 'demandante', 'status', 'responsaveis']
-
+        fields = ['id', 'titulo', 'descricao', 'validade', 'demandante', 'status', 'responsaveis']
 
 # Serializador de criação e atualização para o modelo Atividade
 class AtividadeCreateUpdateSerializer(serializers.ModelSerializer):
+    responsaveis = serializers.PrimaryKeyRelatedField(
+        queryset=Responsavel.objects.all(),
+        many=True
+    )
+
     class Meta:
         model = Atividade
-        fields = ['id', 'descricao', 'validade', 'demandante', 'status']
+        fields = ['id', 'titulo', 'descricao', 'validade', 'demandante', 'status', 'responsaveis']
+
+    def create(self, validated_data):
+        responsaveis = validated_data.pop('responsaveis', [])
+        atividade = Atividade.objects.create(**validated_data)
+
+        # Adiciona os vínculos na tabela intermediária
+        atividade.responsaveis.set(responsaveis)
+
+        return atividade
+
+    def update(self, instance, validated_data):
+        responsaveis = validated_data.pop('responsaveis', None)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if responsaveis is not None:
+            instance.responsaveis.set(responsaveis)
+
+        return instance

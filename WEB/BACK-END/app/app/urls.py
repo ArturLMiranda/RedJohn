@@ -13,11 +13,13 @@ from .views import (
     listar_responsaveis,
     criar_responsavel,
     deletar_responsavel,
+    editar_responsavel,
     listar_demandantes,
     criar_demandante,
     editar_demandante,
     deletar_demandante,
     listar_tipos,
+    listar_status,
 )
 
 urlpatterns = [
@@ -41,6 +43,7 @@ urlpatterns = [
     # Responsáveis
     path('api/responsaveis/', listar_responsaveis, name='listar_responsaveis'),
     path('api/responsaveis/criar/', criar_responsavel, name='criar_responsavel'),
+    path('api/responsaveis/<int:id>/editar/', editar_responsavel, name='editar_responsavel'),  # Usar PUT
     path('api/responsaveis/<int:id>/deletar/', deletar_responsavel, name='deletar_responsavel'),  # Usar DELETE
     
     # Demandantes
@@ -51,4 +54,7 @@ urlpatterns = [
 
     #Tipos
     path('api/tipos/', listar_tipos, name='listar_tipos'),
+
+    #Status
+    path('api/status/', listar_status, name='listar_status'),
 ]

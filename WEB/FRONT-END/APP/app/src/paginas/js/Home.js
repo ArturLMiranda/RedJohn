@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Botao from '../../componentes/js/Botao';
 import CardDemanda from '../../componentes/js/CardDemanda';
 import Modalp from '../../componentes/js/Modalp';
-import ConfigDemanda from "../../componentes/js/ConfigDemanda"
+import ConfigDemanda from "../../componentes/js/ConfigDemanda";
 import NovaDemanda from '../../componentes/js/NovaDemanda';
 import { Container, Row, Col } from 'react-bootstrap';
 import '../css/Home.css';
@@ -13,15 +13,32 @@ const Home = () => {
     const [modalVisivel, setModalVisivel] = useState(false);
     const [modalDemandaVisivel, setModalDemandaVisivel] = useState(false);
     const [dados, setDados] = useState([]);
-    const [demandaSelecionada, setDemandaSelecionada] = useState(null); // Novo estado para a demanda selecionada
+    const [demandaSelecionada, setDemandaSelecionada] = useState(null);
+
+    const carregarAtividades = async () => {
+        const atividades = await buscarAtividades();
+        if (Array.isArray(atividades)) {
+            setDados(atividades);
+        } else {
+            console.error('Erro ao carregar atividades');
+        }
+    };
 
     useEffect(() => {
-        buscarAtividades().then(setDados);
+        carregarAtividades();
     }, []);
 
     const abrirModalDemanda = (demanda) => {
-        setDemandaSelecionada(demanda);  // Define a demanda selecionada
-        setModalDemandaVisivel(true);  // Abre o modal de configuração
+        setDemandaSelecionada(demanda);
+        setModalDemandaVisivel(true);
+    };
+
+    const fecharModalNovaDemanda = () => {
+        setModalVisivel(false);
+    };
+
+    const fecharModalDemanda = () => {
+        setModalDemandaVisivel(false);
     };
 
     return (
@@ -31,19 +48,34 @@ const Home = () => {
             </div>
             <Container fluid className="conteudo">
                 <Row className="gx-3 gy-3">
-                    {dados.map((d, index) => (
-                        <Col key={index} xs={12} sm={6} md={4} lg={3}>
-                            <CardDemanda {...d} onOpenModal={() => abrirModalDemanda(d)} />
-                        </Col>
-                    ))}
+                    {dados.length > 0 ? (
+                        dados.map((d) => (
+                            <Col key={d.id} xs={12} sm={6} md={4} lg={3}>
+                                <CardDemanda
+                                    titulo={d.titulo}
+                                    demandante={d.demandante}
+                                    responsavel={d.responsaveis}
+                                    descricao={d.descricao}
+                                    status={d.status}
+                                    validade={d.validade}
+                                    onOpenModal={() => abrirModalDemanda(d)}
+                                />
+                            </Col>
+                        ))
+                    ) : (
+                        <div className="col-12">Carregando atividades...</div>
+                    )}
                 </Row>
             </Container>
-            <Modalp show={modalVisivel} handleClose={() => setModalVisivel(false)}>
+            <Modalp show={modalVisivel} handleClose={fecharModalNovaDemanda}>
                 <NovaDemanda />
             </Modalp>
-            <Modalp show={modalDemandaVisivel} handleClose={() => setModalDemandaVisivel(false)}>
-                {/* Passa a demanda selecionada para o componente ConfigDemanda */}
-                <ConfigDemanda demanda={demandaSelecionada} />
+            <Modalp show={modalDemandaVisivel} handleClose={fecharModalDemanda}>
+                <ConfigDemanda 
+                    demanda={demandaSelecionada} 
+                    onAtualizarAtividades={carregarAtividades}
+                    onFechar={fecharModalDemanda}
+                />
             </Modalp>
         </Tela>
     );

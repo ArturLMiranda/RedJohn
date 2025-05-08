@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'sistema_atividades',
         'USER': 'root',
         'PASSWORD': 'Onex@2024',  # ou a senha definida no XAMPP/MySQL
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }

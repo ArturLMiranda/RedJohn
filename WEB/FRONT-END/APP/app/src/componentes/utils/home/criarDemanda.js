@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_URL } from "../config";
 const criarDemanda = async (novaDemanda) => {
     try {
-        const response = await axios.post(`S${API_URL}/api/atividades/criar/`, novaDemanda, {
+        const response = await axios.post(`${API_URL}/api/atividades/criar/`, novaDemanda, {
             headers: {
                 "Content-Type": "application/json",
             }

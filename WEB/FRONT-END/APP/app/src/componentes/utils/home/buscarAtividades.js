@@ -1,8 +1,8 @@
 import axios from 'axios';
-
+import { API_URL } from "../config";
 const buscarAtividades = async () => {
     try {
-        const response = await axios.get("http://localhost:8000/api/atividades/");
+        const response = await axios.get(`${API_URL}/api/atividades/`);
         if (!response.data) throw new Error("Erro ao buscar atividades");
 
         const atividadesFormatadas = response.data.map((item) => ({

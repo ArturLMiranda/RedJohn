@@ -1,8 +1,8 @@
 import axios from 'axios';
-
+import { API_URL } from "../config";
 const criarResponsavel = async (nome) => {
     try {
-        const response = await axios.post('http://localhost:8000/api/responsaveis/criar/', { nome });
+        const response = await axios.post(`${API_URL}/api/responsaveis/criar/`, { nome });
         return response.data;
     } catch (error) {
         console.error('Erro ao criar responsável:', error);

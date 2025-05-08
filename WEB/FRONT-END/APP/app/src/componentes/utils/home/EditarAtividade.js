@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { API_URL } from "../config";
 export const EditarAtividade = async (atividadeId, titulo, descricao, demandante, responsaveis, validade, status) => {
     if (!atividadeId) {
         console.log("ID da atividade não encontrado.");
@@ -29,7 +29,7 @@ export const EditarAtividade = async (atividadeId, titulo, descricao, demandante
         console.log("Payload enviado:", dadosAtualizados);
 
         const response = await axios.put(
-            `http://localhost:8000/api/atividades/${atividadeId}/editar/`,
+            `${API_URL}/api/atividades/${atividadeId}/editar/`,
             dadosAtualizados,
             {
                 headers: {

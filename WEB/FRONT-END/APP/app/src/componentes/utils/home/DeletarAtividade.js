@@ -1,6 +1,6 @@
 // utils/home/DeletarAtividade.js
 import axios from 'axios';
-
+import { API_URL } from "../config";
 // Função para deletar a atividade
 export const DeletarAtividade = async (atividadeId) => {
     if (!atividadeId) {
@@ -9,7 +9,7 @@ export const DeletarAtividade = async (atividadeId) => {
     }
 
     try {
-        const response = await axios.delete(`http://localhost:8000/api/atividades/${atividadeId}/deletar/`);
+        const response = await axios.delete(`${API_URL}/api/atividades/${atividadeId}/deletar/`);
         if (response.status === 204 || response.status === 200) {
             console.log("Atividade deletada com sucesso");
         } else {

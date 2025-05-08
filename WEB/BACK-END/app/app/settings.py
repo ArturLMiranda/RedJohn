@@ -131,7 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = False  # ou True para liberar tudo (somente para testes)
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://localhost:3000","http://127.0.0.1:3000","http://10.186.0.71:3000",
 ]
 
 # Se estiver usando credenciais (cookies, auth headers):

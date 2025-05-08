@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
+import { API_URL } from '../utils/config';
 import Botao from './Botao';
 import { DeletarAtividade } from '../utils/home/DeletarAtividade';
 import { EditarAtividade } from '../utils/home/EditarAtividade';
 
 const fetchDemandantes = async () => {
-    const response = await fetch('http://localhost:8000/api/demandantes/');
+    const response = await fetch(`${API_URL}/api/demandantes/`);
     return await response.json();
 };
 
 const fetchResponsaveis = async () => {
-    const response = await fetch('http://localhost:8000/api/responsaveis/');
+    const response = await fetch(`${API_URL}/api/responsaveis/`);
     return await response.json();
 };
 
 const fetchStatus = async () => {
-    const response = await fetch('http://localhost:8000/api/status/');
+    const response = await fetch(`${API_URL}/api/status/`);
     return await response.json();
 };
 

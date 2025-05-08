@@ -3,21 +3,21 @@ import { Form, Row, Col, ToggleButton, ToggleButtonGroup } from 'react-bootstrap
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
 import criarDemanda from '../utils/home/criarDemanda';
-
+import { API_URL } from '../utils/config';
 const fetchDemandantes = async () => {
-    const response = await fetch('http://localhost:8000/api/demandantes/');
+    const response = await fetch(`${API_URL}/api/demandantes/`);
     const data = await response.json();
     return data;
 };
 
 const fetchResponsaveis = async () => {
-    const response = await fetch('http://localhost:8000/api/responsaveis/');
+    const response = await fetch(`${API_URL}/api/responsaveis/`);
     const data = await response.json();
     return data;
 };
 
 const fetchStatus = async () => {
-    const response = await fetch('http://localhost:8000/api/status/');
+    const response = await fetch(`${API_URL}/api/status/`);
     const data = await response.json();
     return data;
 };

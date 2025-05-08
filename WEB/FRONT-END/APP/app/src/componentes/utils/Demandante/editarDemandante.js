@@ -33,3 +33,4 @@ export const EditarAtividade = async (id, titulo, descricao, demandante, respons
         }
     }
 };
+export default EditarAtividade;

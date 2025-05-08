@@ -4,7 +4,7 @@ import '../css/NovaDemanda.css';
 import Botao from './Botao';
 import { EditarUsuario } from '../utils/Usuario/EditarUsuario';
 import { DeletarUsuario } from '../utils/Usuario/DeletarUsuario';
-
+import { API_URL } from '../utils/config';
 const FormularioUsuario = ({ usuario, onUpdate }) => {
     const [usuarioId, setUsuarioId] = useState(null);
     const [nome, setNome] = useState('');
@@ -14,7 +14,7 @@ const FormularioUsuario = ({ usuario, onUpdate }) => {
     const [tipos, setTipos] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/tipos/')
+        fetch(`${API_URL}/api/tipos/`)
             .then(res => res.json())
             .then(data => setTipos(data))
             .catch(err => console.error("Erro ao carregar tipos:", err));

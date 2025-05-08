@@ -3,7 +3,7 @@ import { Form, Row, Col } from 'react-bootstrap';
 import '../css/NovaDemanda.css';
 import Botao from './Botao';
 import { CadastrarUsuario } from '../utils/Usuario/CadastrarUsuario';
-
+import { API_URL } from '../utils/config';
 const FormularioUsuarioNovo = ({ onUpdate }) => {
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
@@ -12,7 +12,7 @@ const FormularioUsuarioNovo = ({ onUpdate }) => {
     const [tipos, setTipos] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/tipos/')
+        fetch(`${API_URL}/api/tipos/`)
             .then(res => res.json())
             .then(data => setTipos(data))
             .catch(err => console.error("Erro ao carregar tipos:", err));

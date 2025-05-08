@@ -6,7 +6,7 @@ import LinhasUsuarios from '../../componentes/js/LinhasUsuarios';
 import FormularioUsuarioNovo from '../../componentes/js/FormularioUsuarioNovo';
 import FormularioUsuario from '../../componentes/js/FormularioUsuario';
 import axios from 'axios';
-
+import { API_URL } from '../../componentes/utils/config';
 const Usuario = () => {
     const [modalVisivel, setModalVisivel] = useState(false);
     const [modalVisivel2, setModalVisivel2] = useState(false);
@@ -14,7 +14,7 @@ const Usuario = () => {
     const [usuarioSelecionado, setUsuarioSelecionado] = useState(null);
 
     const carregarUsuarios = () => {
-        axios.get('http://localhost:8000/api/usuarios/')
+        axios.get(`${API_URL}/api/usuarios/`)
             .then((response) => {
                 setUsuarios(response.data);
             })

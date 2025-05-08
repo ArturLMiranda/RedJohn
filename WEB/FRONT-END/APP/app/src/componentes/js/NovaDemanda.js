@@ -32,9 +32,11 @@ const NovaDemanda = () => {
     const [demandantes, setDemandantes] = useState([]);
     const [todosResponsaveis, setTodosResponsaveis] = useState([]);
     const [statuses, setStatuses] = useState([]);
+    console.log('Payload:', NovaDemanda);
 
     useEffect(() => {
         const fetchData = async () => {
+            console.log('Payload:', NovaDemanda);
             const demandantesData = await fetchDemandantes();
             const responsaveisData = await fetchResponsaveis();
             const statusesData = await fetchStatus();
